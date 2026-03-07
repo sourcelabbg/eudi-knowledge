@@ -1,6 +1,27 @@
 ---
 name: "arf-ecosystem-roles"
 description: "Use when discussing who does what in the EUDI ecosystem: Wallet Provider, PID Provider, QEAA Provider, PuB-EAA Provider, EAA Provider, Relying Party, CAB, Trust List Provider, Access Certificate Authority."
+sections:
+  - "3. Roles within the EUDI Wallet ecosystem"
+  - "3.1 Introduction"
+  - "3.2 Users of Wallet Units"
+  - "3.3 Wallet Providers"
+  - "3.4 Person Identification Data (PID) Providers"
+  - "3.5 Trusted List or LoTE Provider"
+  - "3.6 Qualified Electronic Attestation of Attributes (QEAA) Providers"
+  - "3.7 EAA issued by or on behalf of a public sector body responsible for an authentic source (PuB-EAA) Providers"
+  - "3.8 Non-Qualified Electronic Attestation of Attributes (EAA) Providers"
+  - "3.9 Qualified Electronic Signature Remote Creation (QESRC) Providers"
+  - "3.10 Authentic Sources"
+  - "3.11 Relying Parties, Relying Party Instances, and intermediaries"
+  - "3.12 Conformity Assessment Bodies (CAB)"
+  - "3.13 Supervisory Bodies"
+  - "3.14 Device Manufacturers and Related Subsystems Providers"
+  - "3.15 Attestation Scheme Providers for QEAAs, PuB-EAAs and EAAs"
+  - "3.16 National Accreditation Bodies"
+  - "3.17 Registrars"
+  - "3.18 Access Certificate Authorities"
+  - "3.19 Providers of registration certificates"
 ---
 
 <!-- ARF version: v2.8.0 -->

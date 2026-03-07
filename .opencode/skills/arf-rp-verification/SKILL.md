@@ -1,6 +1,17 @@
 ---
 name: "arf-rp-verification"
 description: "Use when implementing RP-side verification during attestation presentation: authenticity checks, revocation verification, device binding, user binding, combined presentation, and suspicious request reporting."
+sections:
+  - "6.6.3.6 Relying Party Instance verifies the authenticity of the PID or attestation"
+  - "6.6.3.7 Relying Party verifies that the PID or attestation is not revoked"
+  - "6.6.3.8 Relying Party Instance verifies device binding"
+  - "6.6.3.9 Relying Party Instance verifies or trusts User binding"
+  - "6.6.3.10 Relying Party Instance verifies combined presentation of attributes"
+  - "6.6.3.10.1 Introduction"
+  - "6.6.3.10.2 Cryptographic binding between attestations"
+  - "6.6.3.11 Relying Party Instance trusts issuer to have authenticated the Wallet Unit and the Wallet Provider"
+  - "6.6.3.12 Relying Party optionally trusts issuer to regularly verify that Wallet Unit is not revoked"
+  - "6.6.3.13 Wallet Unit enables the User to report suspicious requests by a Relying Party and to request a Relying Party to erase personal data"
 ---
 
 <!-- ARF version: v2.8.0 -->

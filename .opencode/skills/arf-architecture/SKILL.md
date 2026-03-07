@@ -1,6 +1,18 @@
 ---
 name: "arf-architecture"
 description: "Use when designing wallet components, understanding EUDI design principles (user-centricity, interoperability, privacy/security by design), or working with the reference architecture, its components, and interfaces."
+sections:
+  - "4.1 Introduction"
+  - "4.2 Design principles"
+  - "4.2.1 User-centricity"
+  - "4.2.2 Accessibility"
+  - "4.2.3 Interoperability"
+  - "4.2.4 Privacy by design"
+  - "4.2.5 Security by design"
+  - "4.3 Reference architecture"
+  - "4.3.1 Overview"
+  - "4.3.2 Components of a Wallet Unit"
+  - "4.3.3 Wallet Unit interfaces and protocols"
 ---
 
 <!-- ARF version: v2.8.0 -->

@@ -1,6 +1,12 @@
 ---
 name: "arf-wallet-reqs"
 description: "Use when reviewing Wallet Solution certification requirements, conformity assessment, CSA-based certification schemes, or risk management for Wallet Solutions."
+sections:
+  - "7 Wallet Solution Certification and Risk Management"
+  - "7.1 Introduction"
+  - "7.2. Certification of Wallet Solutions against national certification schemes"
+  - "7.3 Certification of Wallet Solutions against a dedicated CSA-based scheme"
+  - "7.4 Risk-based approach and risk register"
 ---
 
 <!-- ARF version: v2.8.0 -->

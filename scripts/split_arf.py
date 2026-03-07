@@ -282,8 +282,34 @@ def fetch_oid4vp() -> str:
     print("  Fetching OpenID4VP 1.0 spec...")
     r = requests.get(OID4VP_URL, timeout=30)
     r.raise_for_status()
+    r.encoding = 'utf-8'  # Prevent ISO-8859-1 double-encoding of UTF-8 content
 
     text = r.text
+
+    # Protect <pre> blocks from link conversion
+    pre_blocks = []
+    def _stash_pre(m):
+        pre_blocks.append(m.group(0))
+        return f'__PRE_BLOCK_{len(pre_blocks) - 1}__'
+    text = re.sub(r'<pre[^>]*>.*?</pre>', _stash_pre, text, flags=re.DOTALL)
+
+    # Remove pilcrow paragraph markers entirely (tag + content)
+    text = re.sub(r'<a[^>]*class="[^"]*pilcrow[^"]*"[^>]*>.*?</a>', '', text, flags=re.DOTALL)
+
+    # Remove selfRef navigation links — keep inner HTML for heading converter
+    text = re.sub(r'<a[^>]*class="[^"]*selfRef[^"]*"[^>]*>(.*?)</a>', r'\1', text, flags=re.DOTALL)
+
+    # Convert <a href="...">text</a> to markdown [text](url)
+    def _link_to_md(m):
+        href = m.group(1)
+        inner = re.sub(r'<[^>]+>', '', m.group(2)).strip()
+        if not inner or not href:
+            return inner or ''
+        # Expand internal #fragment links to full spec URLs
+        if href.startswith('#'):
+            href = OID4VP_URL + href
+        return f'[{inner}]({href})'
+    text = re.sub(r'<a\s+[^>]*href="([^"]*)"[^>]*>(.*?)</a>', _link_to_md, text, flags=re.DOTALL)
 
     # Convert headings to markdown — strip inner tags and normalize whitespace
     import re as _re
@@ -302,8 +328,6 @@ def fetch_oid4vp() -> str:
     text = _re.sub(r'<h5[^>]*>(.*?)</h5>', _heading(5), text, flags=_re.DOTALL)
     text = _re.sub(r'<h6[^>]*>(.*?)</h6>', _heading(6), text, flags=_re.DOTALL)
 
-    # Preserve code blocks
-    text = _re.sub(r'<pre[^>]*>(.*?)</pre>', r'```\n\1\n```', text, flags=_re.DOTALL)
 
     # Strip remaining tags
     text = _re.sub(r'<[^>]+>', '', text)
@@ -314,6 +338,15 @@ def fetch_oid4vp() -> str:
     # Decode HTML entities
     import html as _html
     text = _html.unescape(text)
+
+    # Remove any remaining pilcrow characters
+    text = re.sub(r'\s*[¶\u00b6]', '', text)
+
+    # Restore <pre> blocks as code fences
+    for i, block in enumerate(pre_blocks):
+        inner = re.sub(r'<[^>]+>', '', block)
+        inner = _html.unescape(inner)
+        text = text.replace(f'__PRE_BLOCK_{i}__', f'```\n{inner.strip()}\n```')
 
     # Collapse excessive blank lines
     text = _re.sub(r'\n{4,}', '\n\n\n', text)
@@ -336,13 +369,33 @@ def extract_section(text: str, patterns: list) -> str:
     return "\n".join(result).strip()
 
 
+def extract_headings(content: str, max_depth: int = 2) -> list[str]:
+    headings = []
+    min_depth = None
+    for line in content.split("\n"):
+        m = re.match(r'^(#{1,6}) (.+)', line)
+        if m:
+            depth = len(m.group(1))
+            if min_depth is None:
+                min_depth = depth
+            if depth <= (min_depth + max_depth - 1):
+                headings.append(m.group(2).strip())
+    return headings
+
+
 def write_skill(
     skill_dir: Path, name: str, description: str, content: str, version: str
 ) -> None:
     tokens = count_tokens(content)
     is_large = tokens > TOKEN_WARN
     skill_dir.mkdir(parents=True, exist_ok=True)
-    skill_md = f'---\nname: "{name}"\ndescription: "{description}"\n---\n\n<!-- ARF version: {version} -->\n<!-- Tokens: ~{tokens}{"(LARGE)" if is_large else ""} -->\n\n{content}\n'
+    headings = extract_headings(content)
+    if headings:
+        sections_lines = "\n".join(f'  - "{h.replace(chr(34), chr(92)+chr(34))}"' for h in headings)
+        sections_block = f"\nsections:\n{sections_lines}"
+    else:
+        sections_block = ""
+    skill_md = f'---\nname: "{name}"\ndescription: "{description}"{sections_block}\n---\n\n<!-- ARF version: {version} -->\n<!-- Tokens: ~{tokens}{"(LARGE)" if is_large else ""} -->\n\n{content}\n'
     (skill_dir / "SKILL.md").write_text(skill_md, encoding="utf-8")
     flag = "⚠" if is_large else "✓"
     print(

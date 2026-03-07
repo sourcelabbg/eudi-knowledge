@@ -1,6 +1,20 @@
 ---
 name: "arf-trust-model"
 description: "Use when understanding the EUDI trust framework, provider registration, and lifecycle management for Wallet Providers, PID Providers, Attestation Providers, and Relying Parties."
+sections:
+  - "6.1 Scope"
+  - "6.2 Trust throughout a Wallet Provider lifecycle"
+  - "6.2.1 Wallet Provider lifecycle"
+  - "6.2.2 Wallet Provider notification"
+  - "6.2.3 Wallet Provider invalidation"
+  - "6.3 Trust throughout a PID Provider or an Attestation Provider lifecycle"
+  - "6.3.1 PID Provider or Attestation Provider lifecycle"
+  - "6.3.2 PID Provider or Attestation Provider registration and notification"
+  - "6.3.3 Suspension or cancellation of the registration of a PID Provider or Attestation Provider"
+  - "6.4 Trust throughout a Relying Party lifecycle"
+  - "6.4.1 Relying Party lifecycle"
+  - "6.4.2 Relying Party registration"
+  - "6.4.3 Relying Party suspension or cancellation"
 ---
 
 <!-- ARF version: v2.8.0 -->

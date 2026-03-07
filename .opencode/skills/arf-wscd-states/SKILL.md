@@ -1,6 +1,27 @@
 ---
 name: "arf-wscd-states"
 description: "Use when selecting WSCD architecture types (remote/local-external/local-internal/local-native/hybrid), working with state lifecycles for Wallet Providers/Solutions/Units/Providers/Attestations, or implementing pseudonym types (verifiable, attested, scope rate-limited)."
+sections:
+  - "4.5 WSCD architecture types"
+  - "4.5.1 Introduction"
+  - "4.5.2 Remote WSCD"
+  - "4.5.3 Local external WSCD"
+  - "4.5.4 Local internal WSCD"
+  - "4.5.5 Local native WSCD"
+  - "4.5.6 Hybrid architecture"
+  - "4.6 State diagrams"
+  - "4.6.1 Introduction"
+  - "4.6.2 Wallet Provider"
+  - "4.6.3 Wallet Solution"
+  - "4.6.4 Wallet Unit"
+  - "4.6.5 PID Provider or Attestation Provider"
+  - "4.6.6 PID or attestation"
+  - "4.6.7 Relying Party"
+  - "4.7 Possible implementations of pseudonyms"
+  - "4.7.1 Introduction: types of pseudonyms"
+  - "4.7.2 Verifiable pseudonyms"
+  - "4.7.3 Attested pseudonyms"
+  - "4.7.4 Scope rate-limited pseudonyms"
 ---
 
 <!-- ARF version: v2.8.0 -->

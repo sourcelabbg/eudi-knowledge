@@ -1,6 +1,12 @@
 ---
 name: "arf-glossary"
 description: "Use when the meaning of a specific EUDI/ARF term or acronym is unclear. Contains all ARF definitions: PID, QEAA, PuB-EAA, WUA, WSCD, WSCA, LoTE, CAB, Relying Party, Wallet Unit."
+sections:
+  - "ANNEX 1 - Definitions"
+  - "A.1 Introduction"
+  - "A.2 Definitions from the [European Digital Identity Regulation]"
+  - "A.3 Definitions from the adopted Commission Implementing Regulations"
+  - "A.4 Additional definitions used in the ARF"
 ---
 
 <!-- ARF version: v2.8.0 -->

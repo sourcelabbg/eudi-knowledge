@@ -1,6 +1,18 @@
 ---
 name: "arf-issuance-reqs"
 description: "Use when implementing PID or attestation issuance, including lifecycle states, batch issuance, key binding, and trust requirements between issuers and wallet units."
+sections:
+  - "6.6.1 PID or attestation lifecycle"
+  - "6.6.2 PID or attestation issuance"
+  - "6.6.2.1 Required trust relationships"
+  - "6.6.2.2 Wallet Unit authenticates the PID Provider or Attestation Provider"
+  - "6.6.2.3 PID Provider or Attestation Provider validates the Wallet Unit"
+  - "6.6.2.4 PID Provider or Attestation Provider verifies that WUA is not revoked"
+  - "6.6.2.5 Wallet Unit verifies PID or attestation"
+  - "6.6.2.6 User activates the PID"
+  - "6.6.2.7 Provisioning embedded disclosure policies"
+  - "6.6.2.7.1 Introduction"
+  - "6.6.2.8 Batch issuance"
 ---
 
 <!-- ARF version: v2.8.0 -->

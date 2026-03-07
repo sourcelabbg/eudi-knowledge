@@ -1,6 +1,17 @@
 ---
 name: "arf-attestation-mgmt"
 description: "Use when implementing attestation presentation to other Wallet Units or intermediaries, attestation management (refresh, status checks), and attestation deletion."
+sections:
+  - "6.6.4 PID or attestation presentation to another Wallet Unit"
+  - "6.6.4.1 Introduction"
+  - "6.6.4.2 General transaction flow"
+  - "6.6.5 PID or attestation presentation to an intermediary"
+  - "6.6.6 PID or attestation management"
+  - "6.6.6.1 Overview"
+  - "6.6.6.2 PID or attestation re-issuance"
+  - "6.6.6.3 Deletion of unusable PIDs or attestations"
+  - "6.6.6.4 PID or attestation revocation"
+  - "6.6.7 PID or attestation deletion"
 ---
 
 <!-- ARF version: v2.8.0 -->

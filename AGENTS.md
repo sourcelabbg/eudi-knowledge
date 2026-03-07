@@ -170,12 +170,16 @@ No `pyproject.toml` or `setup.py` — this is not a distributable package.
 
 ## Generated Skill Format
 
-Each skill is a Markdown file at `.opencode/skills/<name>/SKILL.md` with YAML frontmatter:
+Each skill is a Markdown file at `.opencode/skills/<name>/SKILL.md` with YAML frontmatter. The `sections` field lists top-level + one sub-level headings so models can locate content across skills:
 
 ```markdown
 ---
 name: "arf-architecture"
 description: "Use when designing wallet components..."
+sections:
+  - "4.1 Introduction"
+  - "4.2 Design principles"
+  - "4.2.1 User-centricity"
 ---
 
 <!-- ARF version: v1.5.0 -->
@@ -195,3 +199,5 @@ with `(LARGE)` and should be considered for splitting.
 - Skills with `"url"` fetch content from a separate file (used for `arf-glossary` which lives in Annex 1).
 - Old skill directories are cleaned before regeneration to remove stale skills.
 - `.arf-version` file caches the last-processed release tag to avoid redundant regeneration.
+- OID4VP skills are fetched from HTML and converted to markdown; internal cross-references are preserved as full-URL markdown links.
+- Every skill includes a `sections:` list in frontmatter for cross-skill reference lookup.

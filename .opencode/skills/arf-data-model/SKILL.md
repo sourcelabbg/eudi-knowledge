@@ -1,6 +1,14 @@
 ---
 name: "arf-data-model"
 description: "Use when working with credential formats (ISO/IEC 18013-5 mdoc, SD-JWT VC, W3C VCDM), attestation categories (PID, QEAA, PuB-EAA, EAA), attestation rulebooks, or attribute schemas."
+sections:
+  - "5 Data model and data exchange protocols"
+  - "5.1 Attestation elements"
+  - "5.2 Attestation categories"
+  - "5.3 Attestation formats and proof mechanisms"
+  - "5.4 Attestation Rulebooks and Attestation schemes"
+  - "5.5 Catalogue of attributes and catalogue of attestation schemes"
+  - "5.6 Protocols for secure data exchange between Wallet Units and Relying Parties"
 ---
 
 <!-- ARF version: v2.8.0 -->

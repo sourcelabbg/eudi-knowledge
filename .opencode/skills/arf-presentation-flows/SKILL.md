@@ -1,6 +1,14 @@
 ---
 name: "arf-presentation-flows"
 description: "Use when implementing presentation flows, OpenID4VP integration, verifier endpoints, or proximity flows. Covers same-device/cross-device remote presentation, BLE/NFC proximity, OID4VP profiling, DC API."
+sections:
+  - "4.4 Data presentation flows"
+  - "4.4.1 Overview"
+  - "4.4.2 Proximity presentation flows"
+  - "4.4.3 Remote presentation transaction flows"
+  - "5.6 Protocols for secure data exchange between Wallet Units and Relying Parties"
+  - "5.6.1 Attestation presentation"
+  - "5.6.2 Transactional data using [ISO/IEC 18013-5] and [OpenID4VP]"
 ---
 
 <!-- ARF version: v2.8.0 -->

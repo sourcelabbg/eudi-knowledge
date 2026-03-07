@@ -1,6 +1,20 @@
 ---
 name: "arf-presentation-reqs"
 description: "Use when implementing wallet-side presentation trust: Relying Party authentication, attribute request verification, embedded disclosure policy evaluation, and user approval flows."
+sections:
+  - "6.6.3.1 Required trust relationships"
+  - "6.6.3.2 Wallet Unit authenticates the Relying Party Instance"
+  - "6.6.3.3 Wallet Unit allows User to verify that Relying Party does not request more attributes than it registered"
+  - "6.6.3.4 Wallet Unit evaluates embedded disclosure policy, if present"
+  - "6.6.3.5 Wallet Unit obtains User approval for presenting selected attributes"
+  - "6.6.3.5.1 Introduction"
+  - "6.6.3.5.2 Wallet Unit authenticates the User"
+  - "6.6.3.5.3 Wallet Unit informs the User about the identity of the Relying Party"
+  - "6.6.3.5.4 Wallet Unit informs the User about the attributes the Relying Party requested"
+  - "6.6.3.5.5 Wallet Unit informs the User about the Relying Party's intended use and privacy policy"
+  - "6.6.3.5.6 Wallet Unit informs the User about the outcome of the evaluation of the requested attributes"
+  - "6.6.3.5.7 Wallet Unit informed the User about the outcome of the evaluation of the embedded disclosure policy"
+  - "6.6.3.5.8 Wallet Unit enables the User to approve or deny the requested attributes"
 ---
 
 <!-- ARF version: v2.8.0 -->

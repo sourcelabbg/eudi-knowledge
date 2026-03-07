@@ -1,6 +1,13 @@
 ---
 name: "arf-wallet-lifecycle"
 description: "Use when implementing Wallet Unit lifecycle: installation, activation (device data collection, user authentication setup, WUA/WIA issuance), management, and uninstallation."
+sections:
+  - "6.5 Trust throughout a Wallet Unit lifecycle"
+  - "6.5.1 Wallet Unit lifecycle"
+  - "6.5.2 Wallet Instance installation"
+  - "6.5.3 Wallet Unit activation"
+  - "6.5.4 Wallet Unit management"
+  - "6.5.5 Wallet Instance uninstallation"
 ---
 
 <!-- ARF version: v2.8.0 -->

@@ -12,13 +12,19 @@ and related specs. Load them in any project where you're building on the EUDI ec
 
 | Skill | Source | Content |
 |---|---|---|
-| `arf-glossary` | ARF §1.5 / Annex 1 | Term definitions |
+| `arf-glossary` | ARF Annex 1 | Term definitions |
 | `arf-ecosystem-roles` | ARF §3 | All ecosystem roles |
-| `arf-architecture` | ARF §4 | Components, WSCD types, state diagrams |
-| `arf-data-model` | ARF §5 | Credential formats, attestation categories |
+| `arf-architecture` | ARF §4.1–4.3 | Design principles, reference architecture, components |
+| `arf-wscd-states` | ARF §4.5–4.7 | WSCD types, state lifecycles, pseudonyms |
 | `arf-presentation-flows` | ARF §4.4 + §5.6 | Remote/proximity flows, OID4VP |
-| `arf-pid-provider-reqs` | ARF §6 | Normative PID Provider requirements |
-| `arf-wallet-reqs` | ARF §7 | Normative Wallet Solution requirements |
+| `arf-data-model` | ARF §5 | Credential formats, attestation categories |
+| `arf-trust-model` | ARF §6.1–6.4 | Trust framework, provider registration |
+| `arf-wallet-lifecycle` | ARF §6.5 | Wallet Unit install, activation, management |
+| `arf-issuance-reqs` | ARF §6.6.1–6.6.2 | PID/attestation issuance, batch issuance |
+| `arf-presentation-reqs` | ARF §6.6.3.1–5 | Wallet-side presentation trust, RP auth |
+| `arf-rp-verification` | ARF §6.6.3.6–13 | RP-side verification, revocation, binding |
+| `arf-attestation-mgmt` | ARF §6.6.4–7 | Attestation management, refresh, deletion |
+| `arf-wallet-reqs` | ARF §7 | Wallet certification, conformity assessment |
 | `oid4vp-*` (8 skills) | OID4VP 1.0 Final | Authorization requests, DCQL, responses, metadata, security, DC API, credential formats |
 
 ## Setup
