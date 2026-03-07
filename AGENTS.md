@@ -18,21 +18,28 @@ scripts/
   split_sd_jwt_quickstart.py # SD-JWT implementation quickstart → 1 skill
   generate_all.py      # Single entry point for all generators
   update.py            # Check for new ARF release, re-run generators if newer version found
-.opencode/skills/      # Generated skill files (~150 skills)
+.ai/
+  skills/              # Canonical generated skill files (~150 skills)
+  agents/              # Canonical custom OpenCode subagents
+  commands/            # Canonical OpenCode command docs
+.opencode/skills/      # Compatibility symlink to .ai/skills
+.opencode/agents/      # Compatibility symlink to .ai/agents
+.opencode/commands/    # Compatibility symlink to .ai/commands
 requirements.txt       # Pinned Python dependencies
 ```
 
 ## Custom Subagents (`@` mentions)
 
-The project includes custom OpenCode subagents in `.opencode/agents/`. The
+The project includes custom OpenCode subagents in `.ai/agents/` (exposed at
+`.opencode/agents/` via symlink). The
 filename maps directly to the `@` handle.
 
 | Handle | File | Purpose |
 |---|---|---|
-| `@eudi-expert` | `.opencode/agents/eudi-expert.md` | General EUDI standards specialist across ARF, OID4VP, and OID4VCI. |
-| `@oid4vp-security-auditor` | `.opencode/agents/oid4vp-security-auditor.md` | Security/privacy audit for OpenID4VP requests, responses, and verifier checks. |
-| `@arf-trust-architect` | `.opencode/agents/arf-trust-architect.md` | Trust model and actor lifecycle architecture guidance based on ARF. |
-| `@oid4vci-issuer-reviewer` | `.opencode/agents/oid4vci-issuer-reviewer.md` | Issuer-side OpenID4VCI flow review and hardening checklist. |
+| `@eudi-expert` | `.ai/agents/eudi-expert.md` | General EUDI standards specialist across ARF, OID4VP, and OID4VCI. |
+| `@oid4vp-security-auditor` | `.ai/agents/oid4vp-security-auditor.md` | Security/privacy audit for OpenID4VP requests, responses, and verifier checks. |
+| `@arf-trust-architect` | `.ai/agents/arf-trust-architect.md` | Trust model and actor lifecycle architecture guidance based on ARF. |
+| `@oid4vci-issuer-reviewer` | `.ai/agents/oid4vci-issuer-reviewer.md` | Issuer-side OpenID4VCI flow review and hardening checklist. |
 
 Use them by mentioning the handle in chat, for example:
 
@@ -63,7 +70,7 @@ python scripts/update.py --force
 
 No test suite exists. No linter or formatter is configured.
 Validate changes by running `python scripts/generate_all.py` and checking that
-skills are written to `.opencode/skills/*/SKILL.md` without errors.
+skills are written to `.ai/skills/*/SKILL.md` without errors.
 
 ## CI / GitHub Actions
 
@@ -341,7 +348,7 @@ No `pyproject.toml` or `setup.py` -- this is not a distributable package.
 
 ## Generated Skill Format
 
-Each skill is a Markdown file at `.opencode/skills/<name>/SKILL.md` with YAML frontmatter. The `sections` field lists top-level + one sub-level headings so models can locate content across skills:
+Each skill is a Markdown file at `.ai/skills/<name>/SKILL.md` with YAML frontmatter. The `sections` field lists top-level + one sub-level headings so models can locate content across skills:
 
 ```markdown
 ---

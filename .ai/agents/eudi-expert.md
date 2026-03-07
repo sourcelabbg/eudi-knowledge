@@ -1,6 +1,7 @@
 ---
 description: EUDI, ARF, OID4VP, and OID4VCI standards specialist
 mode: subagent
+model: openai/gpt-5.4
 temperature: 0.1
 tools:
   skill: true

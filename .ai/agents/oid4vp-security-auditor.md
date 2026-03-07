@@ -1,6 +1,7 @@
 ---
 description: Audits OpenID4VP request and response handling for security and privacy
 mode: subagent
+model: openai/gpt-5.4
 temperature: 0.1
 tools:
   skill: true

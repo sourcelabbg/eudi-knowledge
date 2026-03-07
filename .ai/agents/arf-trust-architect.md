@@ -1,6 +1,7 @@
 ---
 description: Designs and validates EUDI trust model and actor lifecycle decisions
 mode: subagent
+model: openai/gpt-5.4
 temperature: 0.2
 tools:
   skill: true

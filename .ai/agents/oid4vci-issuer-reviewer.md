@@ -1,6 +1,7 @@
 ---
 description: Reviews OpenID4VCI issuer flow correctness and hardening gaps
 mode: subagent
+model: openai/gpt-5.4
 temperature: 0.1
 tools:
   skill: true

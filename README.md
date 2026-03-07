@@ -10,15 +10,16 @@ and related specs. Load them in any project where you're building on the EUDI ec
 
 ## Custom Subagents (`@` mentions)
 
-The project includes custom OpenCode subagents in `.opencode/agents/`. The
+The project includes custom OpenCode subagents in `.ai/agents/` (exposed at
+`.opencode/agents/` via symlink). The
 filename maps directly to the `@` handle.
 
 | Handle | File | Purpose |
 |---|---|---|
-| `@eudi-expert` | `.opencode/agents/eudi-expert.md` | General EUDI standards specialist across ARF, OID4VP, and OID4VCI. |
-| `@oid4vp-security-auditor` | `.opencode/agents/oid4vp-security-auditor.md` | Security/privacy audit for OpenID4VP requests, responses, and verifier checks. |
-| `@arf-trust-architect` | `.opencode/agents/arf-trust-architect.md` | Trust model and actor lifecycle architecture guidance based on ARF. |
-| `@oid4vci-issuer-reviewer` | `.opencode/agents/oid4vci-issuer-reviewer.md` | Issuer-side OpenID4VCI flow review and hardening checklist. |
+| `@eudi-expert` | `.ai/agents/eudi-expert.md` | General EUDI standards specialist across ARF, OID4VP, and OID4VCI. |
+| `@oid4vp-security-auditor` | `.ai/agents/oid4vp-security-auditor.md` | Security/privacy audit for OpenID4VP requests, responses, and verifier checks. |
+| `@arf-trust-architect` | `.ai/agents/arf-trust-architect.md` | Trust model and actor lifecycle architecture guidance based on ARF. |
+| `@oid4vci-issuer-reviewer` | `.ai/agents/oid4vci-issuer-reviewer.md` | Issuer-side OpenID4VCI flow review and hardening checklist. |
 
 Use them by mentioning the handle in chat, for example:
 
@@ -205,13 +206,19 @@ scripts/
   split_sd_jwt_quickstart.py # SD-JWT implementation quickstart → 1 skill
   generate_all.py      # Single entry point for all generators
   update.py            # Check for updates and regenerate
-.opencode/skills/      # Generated skill files (~150 skills)
+.ai/
+  skills/              # Canonical generated skill files (~150 skills)
+  agents/              # Canonical custom OpenCode subagents
+  commands/            # Canonical OpenCode command docs
+.opencode/skills/      # Compatibility symlink to .ai/skills
+.opencode/agents/      # Compatibility symlink to .ai/agents
+.opencode/commands/    # Compatibility symlink to .ai/commands
 ```
 
 ## Setup
 
 ```bash
-git clone https://github.com/nickreardon/eudi-knowledge
+git clone https://github.com/sourcelabbg/eudi-knowledge
 cd eudi-knowledge
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
@@ -225,7 +232,7 @@ python scripts/generate_all.py
 ### Option A — Symlink globally (single developer)
 
 ```bash
-ln -s $(pwd)/.opencode/skills/* ~/.config/opencode/skills/
+ln -s $(pwd)/.ai/skills/* ~/.config/opencode/skills/
 ```
 
 ### Option B — Reference in your project's opencode.json
@@ -233,7 +240,7 @@ ln -s $(pwd)/.opencode/skills/* ~/.config/opencode/skills/
 ```json
 {
   "instructions": [
-    "https://raw.githubusercontent.com/nickreardon/eudi-knowledge/main/AGENTS.md"
+    "https://raw.githubusercontent.com/sourcelabbg/eudi-knowledge/main/AGENTS.md"
   ]
 }
 ```
@@ -241,7 +248,7 @@ ln -s $(pwd)/.opencode/skills/* ~/.config/opencode/skills/
 ### Option C — Git submodule in your monorepo
 
 ```bash
-git submodule add https://github.com/nickreardon/eudi-knowledge packages/eudi-knowledge
+git submodule add https://github.com/sourcelabbg/eudi-knowledge packages/eudi-knowledge
 ```
 
 ## Updating

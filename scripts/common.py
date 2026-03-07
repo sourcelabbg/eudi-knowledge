@@ -14,7 +14,7 @@ from pathlib import Path
 
 # ── Constants ──────────────────────────────────────────────────────────────
 
-OUTPUT_BASE = Path(".opencode/skills")
+OUTPUT_BASE = Path(".ai/skills")
 ENCODER = tiktoken.get_encoding("cl100k_base")
 TOKEN_WARN = 8_000
 
