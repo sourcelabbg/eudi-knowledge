@@ -12,7 +12,7 @@ sections:
 ---
 
 <!-- ARF version: v2.8.0 -->
-<!-- Tokens: ~4837 -->
+<!-- Tokens: ~5758 -->
 
 ### 4.4 Data presentation flows
 
@@ -60,7 +60,20 @@ want to use) an internet connection between them. In this case, the [ISO/IEC
 presentation request and the corresponding response are exchanged using
 short-range communication technologies.
 
-![Figure 3](media/Figure_3_Proximity_Flow.png)
+![Figure 3](https://raw.githubusercontent.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/main/docs/media/Figure_3_Proximity_Flow.png)
+
+```mermaid
+stateDiagram-v2
+  state "User Device (UD)" as tklJ06Eg1gI686ZZUtUN-96
+  state "Wallet Instance(WI)" as tklJ06Eg1gI686ZZUtUN-58
+  state "2" as 2
+  state "Relying Party Instance (RPI)&nbsp;orWallet Unit" as 11
+  state "OqG462VzuzaBs0EC9eQU-37" as OqG462VzuzaBs0EC9eQU-37
+  state "UserInterface" as tklJ06Eg1gI686ZZUtUN-60
+  state "User" as tklJ06Eg1gI686ZZUtUN-71
+  2 --> tklJ06Eg1gI686ZZUtUN-60 : &nbsp; UI&nbsp;&nbsp;
+  tklJ06Eg1gI686ZZUtUN-58 --> 11 : Proximity <br/>presentation<br/>ISO/EIC 18013-5
+```
 *Figure 3: Proximity presentations*
 
 An attribute presentation flow according to ISO/IEC 18013-5 begins when the User
@@ -204,7 +217,22 @@ their preferred regulated endpoint.
 
 ##### 4.4.3.2 Same-device remote presentation flows
 
-![Figure 4](media/Figure_4_Remote_Same-Device_Flow.png)
+![Figure 4](https://raw.githubusercontent.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/main/docs/media/Figure_4_Remote_Same-Device_Flow.png)
+
+```mermaid
+stateDiagram-v2
+  state "User Device (UD)" as tklJ06Eg1gI686ZZUtUN-96
+  state "Wallet Instance(WI)" as tklJ06Eg1gI686ZZUtUN-58
+  state "2" as 2
+  state "Relying Party Instance (RPI)&nbsp;orWallet Unit" as 11
+  state "OqG462VzuzaBs0EC9eQU-37" as OqG462VzuzaBs0EC9eQU-37
+  state "UserInterface" as tklJ06Eg1gI686ZZUtUN-60
+  state "User" as tklJ06Eg1gI686ZZUtUN-71
+  state "Web browser or mobile app(WB)" as tklJ06Eg1gI686ZZUtUN-110
+  2 --> tklJ06Eg1gI686ZZUtUN-60 : &nbsp; UI&nbsp;&nbsp;
+  tklJ06Eg1gI686ZZUtUN-110 --> 11 : Remote same-device<br/>presentation<br/>Digital Credentials API <br/>+ OpenID4VP
+  2 --> tklJ06Eg1gI686ZZUtUN-110 : &nbsp; UI&nbsp;&nbsp;
+```
 *Figure 4: Remote same-device presentations*
 
 Compared to Figure 2, Figure 4 shows additional detail. In particular, it shows
@@ -265,7 +293,23 @@ information included in the presentation request, which may vary.
 
 ##### 4.4.3.3 Cross-device remote presentation flows
 
-![Figure 5](media/Figure_5_Remote_Cross-Device_Flow.png)
+![Figure 5](https://raw.githubusercontent.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/main/docs/media/Figure_5_Remote_Cross-Device_Flow.png)
+
+```mermaid
+stateDiagram-v2
+  state "User Device (UD)" as tklJ06Eg1gI686ZZUtUN-96
+  state "Wallet Instance(WI)" as tklJ06Eg1gI686ZZUtUN-58
+  state "2" as 2
+  state "Relying Party Instance (RPI)&nbsp;orWallet Unit" as 11
+  state "OqG462VzuzaBs0EC9eQU-37" as OqG462VzuzaBs0EC9eQU-37
+  state "UserInterface" as tklJ06Eg1gI686ZZUtUN-60
+  state "User" as tklJ06Eg1gI686ZZUtUN-71
+  state "Web browser(WB)" as tklJ06Eg1gI686ZZUtUN-110
+  state "Other Device" as tklJ06Eg1gI686ZZUtUN-117
+  2 --> tklJ06Eg1gI686ZZUtUN-60 : &nbsp; UI&nbsp;&nbsp;
+  tklJ06Eg1gI686ZZUtUN-110 --> 11 : Remote cross-device<br/>presentation<br/>Digital Credentials API <br/>+ OpenID4VP
+  2 --> tklJ06Eg1gI686ZZUtUN-110 : &nbsp; UI&nbsp;&nbsp;
+```
 Figure 5: Remote cross-device presentations
 
 A remote cross-device attribute presentation flow begins when the User uses a

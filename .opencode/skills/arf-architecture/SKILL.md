@@ -16,7 +16,7 @@ sections:
 ---
 
 <!-- ARF version: v2.8.0 -->
-<!-- Tokens: ~4057 -->
+<!-- Tokens: ~5091 -->
 
 ### 4.1 Introduction
 
@@ -142,7 +142,47 @@ described in [Section 4.3.2](#432-components-of-a-wallet-unit),
 while the interfaces are described in [Section 4.3.3](#433-wallet-unit-interfaces-and-protocols).
 The other entities shown in the figure were already described in [Chapter 3](#3-roles-within-the-eudi-wallet-ecosystem).
 
-![Figure 2](media/Figure_2_High-Level_Architecture.png)
+![Figure 2](https://raw.githubusercontent.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/main/docs/media/Figure_2_High-Level_Architecture.png)
+
+```mermaid
+stateDiagram-v2
+  state "Wallet Provider" as 20
+  state "Wallet Unit" as tklJ06Eg1gI686ZZUtUN-80
+  state "User Device" as tklJ06Eg1gI686ZZUtUN-96
+  state "Wallet Secure&nbsp;Cryptographic Application(WSCA)" as tklJ06Eg1gI686ZZUtUN-93
+  state "Wallet Instance" as tklJ06Eg1gI686ZZUtUN-58
+  state "2" as 2
+  state "Relying Party Instance&nbsp;orWallet Unit" as 11
+  state "PID Providers" as 6
+  state "OqG462VzuzaBs0EC9eQU-37" as OqG462VzuzaBs0EC9eQU-37
+  state "UserInterface" as tklJ06Eg1gI686ZZUtUN-60
+  state "User" as tklJ06Eg1gI686ZZUtUN-71
+  tklJ06Eg1gI686ZZUtUN-79 --> [*]
+  state "Attestation Providers" as tklJ06Eg1gI686ZZUtUN-82
+  state "QESRCProviders" as tklJ06Eg1gI686ZZUtUN-83
+  state "AuthenticSources" as tklJ06Eg1gI686ZZUtUN-84
+  state "TrustedService App" as tklJ06Eg1gI686ZZUtUN-89
+  state "JavaCardApplet" as tklJ06Eg1gI686ZZUtUN-90
+  state "JavaCardApplet" as tklJ06Eg1gI686ZZUtUN-91
+  state "OS" as tklJ06Eg1gI686ZZUtUN-92
+  state "Wallet Secure&nbsp;Cryptographic Device(WSCD)" as tklJ06Eg1gI686ZZUtUN-97
+  state "Remote(HSM)" as tklJ06Eg1gI686ZZUtUN-102
+  state "Local external(smartcard)" as tklJ06Eg1gI686ZZUtUN-103
+  state "Local internal(eSIM/eSE)" as tklJ06Eg1gI686ZZUtUN-104
+  state "Localnative" as tklJ06Eg1gI686ZZUtUN-105
+  state "Keystore" as KnphxpZkCZEyhS7vvOBB-25
+  state "QSCD" as th8cetYOiC7kziltKpju-20
+  state "Optional component" as th8cetYOiC7kziltKpju-24
+  state "Mandatory component" as th8cetYOiC7kziltKpju-25
+  2 --> tklJ06Eg1gI686ZZUtUN-60 : &nbsp; UI&nbsp;&nbsp;
+  tklJ06Eg1gI686ZZUtUN-79 --> tklJ06Eg1gI686ZZUtUN-58 : Support, WUA, Maintenance
+  tklJ06Eg1gI686ZZUtUN-58 --> 11 : Presentation<br/>OpenID4VP<br/>ISO/IEC 18013-5
+  tklJ06Eg1gI686ZZUtUN-82 --> tklJ06Eg1gI686ZZUtUN-58 : (Q)EAA<br/>Issuance<br/>Interface<br/>(OpenID4VCI)
+  tklJ06Eg1gI686ZZUtUN-89 --> tklJ06Eg1gI686ZZUtUN-102 : WSCA-WCSD<br/>Interface<br/>(WWI)
+  tklJ06Eg1gI686ZZUtUN-90 --> tklJ06Eg1gI686ZZUtUN-103 : WSCA-WCSD<br/>Interface<br/>(WWI)
+  tklJ06Eg1gI686ZZUtUN-91 --> tklJ06Eg1gI686ZZUtUN-104 : WSCA-WCSD<br/>Interface<br/>(WWI)
+  tklJ06Eg1gI686ZZUtUN-92 --> tklJ06Eg1gI686ZZUtUN-105 : WSCA-WCSD<br/>Interface<br/>(WWI)
+```
 *Figure 2: EUDI Wallet ecosystem reference architecture*
 
 Figure 2 shows the high-level components and interfaces of the EUDI Wallet

@@ -13,7 +13,7 @@ sections:
 ---
 
 <!-- ARF version: 1.0-final-2025-07-09 -->
-<!-- Tokens: ~4597 -->
+<!-- Tokens: ~4620 -->
 
 ## 1. Introduction
 This specification defines a mechanism on top of OAuth 2.0 [[RFC6749](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#RFC6749)] for requesting and delivering Presentations of Credentials. Credentials and Presentations can be of any format, including, but not limited to W3C Verifiable Credentials Data Model [[VC_DATA](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#VC_DATA)], ISO mdoc [[ISO.18013-5](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#ISO.18013-5)], and IETF SD-JWT VC [[I-D.ietf-oauth-sd-jwt-vc](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#I-D.ietf-oauth-sd-jwt-vc)].
@@ -24,9 +24,9 @@ Additionally, it defines how to use OpenID4VP in conjunction with the Digital Cr
 
 ### 1.1. Additional Authors
 
-Tobias Looker (MATTR)
+- Tobias Looker (MATTR)
 
-          Adam Lemmon (MATTR)
+          - Adam Lemmon (MATTR)
 
         
 
@@ -86,7 +86,7 @@ Issuer-Holder-Verifier Model:
 
         
 Origin:
-        An identifier for the calling website or native application, asserted by the web or app platform. A web origin is the combination of a scheme/protocol, host, and port, with port being omitted when it matches the default port of the scheme. An app platform may use a linked web origin, or use a platform-specific URI for the app origin. For example, the Verifier for the organization MyExampleOrg is served from [https://verify.example.com](https://verify.example.com). The web origin is https://verify.example.com with https being the scheme, verify.example.com being the host, and the port is not explicitly included as 443 is the default port for the protocol https. The native applications origin on some platforms will also be https://verify.example.com and on other platforms, may be platform:pkg-key-hash:Z4OFzVVSZrzTRa3eg79hUuHy12MVW0vzPDf4q4zaPs0.
+        An identifier for the calling website or native application, asserted by the web or app platform. A web origin is the combination of a scheme/protocol, host, and port, with port being omitted when it matches the default port of the scheme. An app platform may use a linked web origin, or use a platform-specific URI for the app origin. For example, the Verifier for the organization MyExampleOrg is served from [https://verify.example.com](https://verify.example.com). The web origin is `https://verify.example.com` with `https` being the scheme, `verify.example.com` being the host, and the port is not explicitly included as `443` is the default port for the protocol `https`. The native applications origin on some platforms will also be `https://verify.example.com` and on other platforms, may be `platform:pkg-key-hash:Z4OFzVVSZrzTRa3eg79hUuHy12MVW0vzPDf4q4zaPs0`.
 
         
 Presentation:
@@ -116,25 +116,25 @@ Wallet:
 
 ## 3. Overview
 This specification defines a mechanism to request and present Credentials. The baseline of the protocol uses HTTPS messages and redirects as defined in OAuth 2.0. Additionally, the specification defines a separate mechanism where OpenID4VP messages are sent and received over the Digital Credentials API (DC API) [[W3C.Digital_Credentials_API](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#W3C.Digital_Credentials_API)] instead of HTTPS messages and redirects.
-As the primary extension, OpenID for Verifiable Presentations introduces the new response type vp_token, which allows a Verifier to request and receive Verifiable Presentations and Presentations in a container designated as VP Token. A VP Token contains one or more Verifiable Presentations and/or Presentations in the same or different Credential formats. Consequently, the result of an OpenID4VP interaction is one or more Verifiable Presentations and/or Presentations instead of an Access Token.
+As the primary extension, OpenID for Verifiable Presentations introduces the new response type `vp_token`, which allows a Verifier to request and receive Verifiable Presentations and Presentations in a container designated as VP Token. A VP Token contains one or more Verifiable Presentations and/or Presentations in the same or different Credential formats. Consequently, the result of an OpenID4VP interaction is one or more Verifiable Presentations and/or Presentations instead of an Access Token.
 This specification supports any Credential format used in the Issuer-Holder-Verifier Model, including, but not limited to those defined in [[VC_DATA](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#VC_DATA)] (VCDM), [[ISO.18013-5](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#ISO.18013-5)] (mdoc), and [[I-D.ietf-oauth-sd-jwt-vc](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#I-D.ietf-oauth-sd-jwt-vc)] (SD-JWT VC). Credentials of multiple formats can be presented in the same transaction. The examples given in the main part of this specification use W3C Verifiable Credentials, while examples in other Credential formats are given in [Appendix B](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#format_specific_parameters).
 OpenID for Verifiable Presentations supports scenarios where the Authorization Request is sent both when the Verifier is interacting with the End-User using the device that is the same or different from the device on which requested Credential(s) are stored.
 This specification supports the response being sent using a redirect but also using an HTTP POST request. This enables the response to be sent across devices, or when the response size exceeds the redirect URL character size limitation.
 In summary, OpenID for Verifiable Presentations is a framework that requires profiling
 to achieve interoperability. Profiling means defining:
 
-what optional features are used or mandatory to implement, e.g., response encryption;
+- what optional features are used or mandatory to implement, e.g., response encryption;
 
-        which values are permitted for parameters, e.g., Credential Format Identifiers;
+        - which values are permitted for parameters, e.g., Credential Format Identifiers;
 
-        optionally, extensions for new features.
+        - optionally, extensions for new features.
 
       
 
 
 ### 3.1. Same Device Flow
 [Figure 1](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#same_device_figure) is a diagram of a flow where the End-User presents a Credential to a Verifier interacting with the End-User on the same device that the device the Wallet resides on.
-The flow utilizes simple redirects to pass Authorization Request and Response between the Verifier and the Wallet. The Presentations are returned to the Verifier in the fragment part of the redirect URI, when Response Mode is fragment.
+The flow utilizes simple redirects to pass Authorization Request and Response between the Verifier and the Wallet. The Presentations are returned to the Verifier in the fragment part of the redirect URI, when Response Mode is `fragment`.
 Note: The diagram does not illustrate all the optional features of this specification.
 
 
@@ -163,12 +163,12 @@ Same Device Flow
           
 
 (1) The Verifier sends an Authorization Request to the Wallet. It contains a Digital Credentials Query Language (DCQL, see [Section 6](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#dcql_query)) query that describes the requirements of the Credential(s) that the Verifier is requesting to be presented. Such requirements could include what type of Credential(s), in what format(s), which individual Claims within those Credential(s) (Selective Disclosure), etc. The Wallet processes the Authorization Request and determines what Credentials are available matching the Verifier's request. The Wallet also authenticates the End-User and gathers consent to present the requested Credentials.
-(2) The Wallet prepares the Presentation(s) of the Credential(s) that the End-User has consented to. It then sends to the Verifier an Authorization Response where the Presentation(s) are contained in the vp_token parameter.
+(2) The Wallet prepares the Presentation(s) of the Credential(s) that the End-User has consented to. It then sends to the Verifier an Authorization Response where the Presentation(s) are contained in the `vp_token` parameter.
 
 
 ### 3.2. Cross Device Flow
 [Figure 2](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#cross_device_figure) is a diagram of a flow where the End-User presents a Credential to a Verifier interacting with the End-User on a different device as the device the Wallet resides on.
-In this flow, the Verifier prepares an Authorization Request and renders it as a QR Code. The End-User then uses the Wallet to scan the QR Code. The Presentations are sent to the Verifier in a direct HTTP POST request to a URL controlled by the Verifier. The flow uses the Response Type vp_token in conjunction with the Response Mode direct_post, both defined in this specification. In order to keep the size of the QR Code small and be able to sign and optionally encrypt the Request Object, the actual Authorization Request contains only the Client Identifier and Request URI (as required by [[RFC9101](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#RFC9101)]), which the Wallet uses to retrieve the actual Authorization Request data.
+In this flow, the Verifier prepares an Authorization Request and renders it as a QR Code. The End-User then uses the Wallet to scan the QR Code. The Presentations are sent to the Verifier in a direct HTTP POST request to a URL controlled by the Verifier. The flow uses the Response Type `vp_token` in conjunction with the Response Mode `direct_post`, both defined in this specification. In order to keep the size of the QR Code small and be able to sign and optionally encrypt the Request Object, the actual Authorization Request contains only the Client Identifier and Request URI (as required by [[RFC9101](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#RFC9101)]), which the Wallet uses to retrieve the actual Authorization Request data.
 Note: The diagram illustrates neither all parameters nor all optional features of this specification.
 Note: The usage of the Request URI as defined in [[RFC9101](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#RFC9101)] does not depend on any other choices made in the protocol extensibility points, i.e., it can be used in the Same Device Flow, too.
 
@@ -207,4 +207,4 @@ Cross Device Flow
 (1) The Verifier sends to the Wallet an Authorization Request that contains a Request URI from where to obtain the Request Object containing Authorization Request parameters.
 (2) The Wallet sends an HTTP GET request to the Request URI to retrieve the Request Object.
 (2.5) The HTTP GET response returns the Request Object containing Authorization Request parameters. It contains a DCQL query that describes the requirements of the Credential(s) that the Verifier is requesting to be presented. Such requirements could include what type of Credential(s), in what format(s), which individual Claims within those Credential(s) (Selective Disclosure), etc. The Wallet processes the Request Object and determines what Credentials are available matching the Verifier's request. The Wallet also authenticates the End-User and gathers their consent to present the requested Credentials.
-(3) The Wallet prepares the Presentation(s) of the Credential(s) that the End-User has consented to. It then sends to the Verifier an Authorization Response where the Presentation(s) are contained in the vp_token parameter.
+(3) The Wallet prepares the Presentation(s) of the Credential(s) that the End-User has consented to. It then sends to the Verifier an Authorization Response where the Presentation(s) are contained in the `vp_token` parameter.

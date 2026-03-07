@@ -25,7 +25,7 @@ sections:
 ---
 
 <!-- ARF version: v2.8.0 -->
-<!-- Tokens: ~7248 -->
+<!-- Tokens: ~9339(LARGE) -->
 
 ### 4.5 WSCD architecture types
 
@@ -149,7 +149,15 @@ Relying Parties.
 
 Figure 6 shows the possible states of a Wallet Provider.
 
-![Figure 6](media/Figure_6_Statechart_Wallet_Provider.png)
+![Figure 6](https://raw.githubusercontent.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/main/docs/media/Figure_6_Statechart_Wallet_Provider.png)
+
+```mermaid
+stateDiagram-v2
+  state "Valid" as xPVAkh8Ksko-M2C2wA4D-1
+  state "Invalid" as xPVAkh8Ksko-M2C2wA4D-2
+  xPVAkh8Ksko-M2C2wA4D-1 --> xPVAkh8Ksko-M2C2wA4D-2 : Member State invalidates&nbsp;
+  xPVAkh8Ksko-M2C2wA4D-2 --> xPVAkh8Ksko-M2C2wA4D-1 : Member State validates&nbsp;
+```
 
 Figure 6: State diagram of Wallet Provider
 
@@ -165,7 +173,20 @@ A Wallet Solution has a state diagram of its own, independent of the lifecycle o
 affects the state of all Wallet Units of that Wallet Solution. Figure 7 below
 shows the states of the Wallet Solution:
 
-![Figure 7](media/Figure_7_Statechart_Wallet_Solution.png)
+![Figure 7](https://raw.githubusercontent.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/main/docs/media/Figure_7_Statechart_Wallet_Solution.png)
+
+```mermaid
+stateDiagram-v2
+  state "Candidate" as xPVAkh8Ksko-M2C2wA4D-1
+  state "Valid" as xPVAkh8Ksko-M2C2wA4D-2
+  xPVAkh8Ksko-M2C2wA4D-3 --> [*]
+  state "Withdrawn" as xPVAkh8Ksko-M2C2wA4D-4
+  xPVAkh8Ksko-M2C2wA4D-2 --> xPVAkh8Ksko-M2C2wA4D-4 : withdraw
+  xPVAkh8Ksko-M2C2wA4D-3 --> xPVAkh8Ksko-M2C2wA4D-2 : re-establish
+  xPVAkh8Ksko-M2C2wA4D-2 --> xPVAkh8Ksko-M2C2wA4D-3 : suspend
+  xPVAkh8Ksko-M2C2wA4D-3 --> xPVAkh8Ksko-M2C2wA4D-4 : &nbsp;withdraw&nbsp;
+  xPVAkh8Ksko-M2C2wA4D-1 --> xPVAkh8Ksko-M2C2wA4D-2 : validate / test / certify
+```
 
 Figure 7: State diagram of Wallet Solution
 
@@ -207,7 +228,29 @@ Wallet Provider revokes all associated Wallet Units.
 
 Figure 8 below shows the states of a Wallet Unit.
 
-![Figure 8](media/Figure_8_Statechart_Wallet_Unit.png)
+![Figure 8](https://raw.githubusercontent.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/main/docs/media/Figure_8_Statechart_Wallet_Unit.png)
+
+```mermaid
+stateDiagram-v2
+  state "Installed" as xPVAkh8Ksko-M2C2wA4D-1
+  state "Valid" as xPVAkh8Ksko-M2C2wA4D-2
+  state "Uninstalled" as xPVAkh8Ksko-M2C2wA4D-4
+  state "Operational" as xPVAkh8Ksko-M2C2wA4D-17
+  state "Revoked" as 8AVNub2K3lThiEOuCoSU-1
+  state "ValidExpired" as 8AVNub2K3lThiEOuCoSU-4
+  state "OperationalExpired" as xjTh9XYM-jWyJmAP51zq-4
+  xPVAkh8Ksko-M2C2wA4D-2 --> xPVAkh8Ksko-M2C2wA4D-17 : The PID expires,&nbsp;the PID Provider revokes the PID,or the User deletes the PID
+  xPVAkh8Ksko-M2C2wA4D-17 --> xPVAkh8Ksko-M2C2wA4D-4 : The User uninstallsthe Wallet Unit
+  xPVAkh8Ksko-M2C2wA4D-1 --> xPVAkh8Ksko-M2C2wA4D-17 : The User activates the Wallet UnitThe Wallet Provider issues a WUA
+  xPVAkh8Ksko-M2C2wA4D-17 --> xPVAkh8Ksko-M2C2wA4D-2 : The PID Providerissues a new PID
+  xPVAkh8Ksko-M2C2wA4D-1 --> xPVAkh8Ksko-M2C2wA4D-4 : The User uninstallsthe Wallet Unit
+  xPVAkh8Ksko-M2C2wA4D-2 --> 8AVNub2K3lThiEOuCoSU-4 : The&nbsp;WUA&nbsp;expires
+  8AVNub2K3lThiEOuCoSU-4 --> xPVAkh8Ksko-M2C2wA4D-2 : The Wallet Providerre-issues a WUA
+  xPVAkh8Ksko-M2C2wA4D-17 --> 8AVNub2K3lThiEOuCoSU-1 : The Wallet Providerrevokes the WUA
+  xjTh9XYM-jWyJmAP51zq-4 --> xPVAkh8Ksko-M2C2wA4D-17 : The Wallet Providerre-issues a WUA
+  xPVAkh8Ksko-M2C2wA4D-17 --> xjTh9XYM-jWyJmAP51zq-4 : The&nbsp;WUA&nbsp;expires
+  8AVNub2K3lThiEOuCoSU-1 --> xPVAkh8Ksko-M2C2wA4D-4 : The User&nbsp;uninstallsthe Wallet Unit
+```
 
 Figure 8: State diagram of Wallet Unit
 
@@ -281,7 +324,18 @@ Unit.
 
 Figure 9 shows the possible states of a PID Provider or Attestation Provider.
 
-![Figure 9](media/Figure_9_Statechart_PID_Provider_Attestation_Provider.png)
+![Figure 9](https://raw.githubusercontent.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/main/docs/media/Figure_9_Statechart_PID_Provider_Attestation_Provider.png)
+
+```mermaid
+stateDiagram-v2
+  state "Registered" as xPVAkh8Ksko-M2C2wA4D-2
+  xPVAkh8Ksko-M2C2wA4D-3 --> [*]
+  state "Cancelled" as xPVAkh8Ksko-M2C2wA4D-4
+  xPVAkh8Ksko-M2C2wA4D-2 --> xPVAkh8Ksko-M2C2wA4D-4 : cancel
+  xPVAkh8Ksko-M2C2wA4D-3 --> xPVAkh8Ksko-M2C2wA4D-2 : unsuspend
+  xPVAkh8Ksko-M2C2wA4D-2 --> xPVAkh8Ksko-M2C2wA4D-3 : suspend
+  xPVAkh8Ksko-M2C2wA4D-3 --> xPVAkh8Ksko-M2C2wA4D-4 : cancel
+```
 
 Figure 9: State diagram of PID Provider or Attestation Provider
 
@@ -316,7 +370,18 @@ transition to **Valid** when it reaches the beginning of its validity period.
 However, if a PID or attestation is issued on or after the validity start date,
 its state directly changes to **Valid**.
 
-![Figure 10](media/Figure_10_Statechart_PID.png)
+![Figure 10](https://raw.githubusercontent.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/main/docs/media/Figure_10_Statechart_PID.png)
+
+```mermaid
+stateDiagram-v2
+  state "Issued" as xPVAkh8Ksko-M2C2wA4D-1
+  state "Valid" as xPVAkh8Ksko-M2C2wA4D-2
+  state "Expired" as xPVAkh8Ksko-M2C2wA4D-3
+  state "Revoked" as xPVAkh8Ksko-M2C2wA4D-4
+  xPVAkh8Ksko-M2C2wA4D-2 --> xPVAkh8Ksko-M2C2wA4D-4 : The Provider revokesthe PID or attestation
+  xPVAkh8Ksko-M2C2wA4D-2 --> xPVAkh8Ksko-M2C2wA4D-3 : The PID or attestationexpires
+  xPVAkh8Ksko-M2C2wA4D-1 --> xPVAkh8Ksko-M2C2wA4D-2 : The validity period of the PID or attestation starts
+```
 
 Figure 10: State diagram of PID or attestation
 
@@ -331,7 +396,18 @@ PID or attestation is expired or revoked, it cannot transition back to
 
 Figure 11 shows the possible states of a Relying Party.
 
-![Figure 11](media/Figure_11_Statechart_Relying_Party.png)
+![Figure 11](https://raw.githubusercontent.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/main/docs/media/Figure_11_Statechart_Relying_Party.png)
+
+```mermaid
+stateDiagram-v2
+  state "Registered" as xPVAkh8Ksko-M2C2wA4D-2
+  xPVAkh8Ksko-M2C2wA4D-3 --> [*]
+  state "Cancelled" as xPVAkh8Ksko-M2C2wA4D-4
+  xPVAkh8Ksko-M2C2wA4D-2 --> xPVAkh8Ksko-M2C2wA4D-4 : cancel
+  xPVAkh8Ksko-M2C2wA4D-3 --> xPVAkh8Ksko-M2C2wA4D-2 : unsuspend
+  xPVAkh8Ksko-M2C2wA4D-2 --> xPVAkh8Ksko-M2C2wA4D-3 : suspend
+  xPVAkh8Ksko-M2C2wA4D-3 --> xPVAkh8Ksko-M2C2wA4D-4 : cancel
+```
 
 Figure 11: State diagram of Relying Party
 

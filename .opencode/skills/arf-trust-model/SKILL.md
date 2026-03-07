@@ -18,7 +18,7 @@ sections:
 ---
 
 <!-- ARF version: v2.8.0 -->
-<!-- Tokens: ~5332 -->
+<!-- Tokens: ~6170 -->
 
 ### 6.1 Scope
 
@@ -27,7 +27,45 @@ maintained, validated, and managed. It describes the rules and assumptions that 
 whether different parts of the system, like a wallet app, a user's device, or a
 service provider, can be trusted.
 
-![Figure 12](media/Figure_12_Trust_Model.png)
+![Figure 12](https://raw.githubusercontent.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/main/docs/media/Figure_12_Trust_Model.png)
+
+```mermaid
+stateDiagram-v2
+  state "Relying Party Instance" as tklJ06Eg1gI686ZZUtUN-59
+  state "Wallet Provider" as tklJ06Eg1gI686ZZUtUN-58
+  state "Relying Party" as tklJ06Eg1gI686ZZUtUN-57
+  state "tklJ06Eg1gI686ZZUtUN-56" as tklJ06Eg1gI686ZZUtUN-56
+  state "tklJ06Eg1gI686ZZUtUN-53" as tklJ06Eg1gI686ZZUtUN-53
+  state "2" as 2
+  state "Relying Party" as 3
+  state "Wallet Unit" as 20
+  state "Wallet Provider" as 19
+  state "Relying Party Instance" as 11
+  state "Common trust infrastructure(Metadata + URLs of the Trusted Lists and LoTEs)EU Commisson" as 5
+  state "- PID Provider- Attestation Provider&nbsp; (QEAA/EAA/Pub-EAA" as 6
+  state "RegistrarMember States" as 14
+  state "OqG462VzuzaBs0EC9eQU-37" as OqG462VzuzaBs0EC9eQU-37
+  state "WUA" as tklJ06Eg1gI686ZZUtUN-42
+  state "AccesCA" as tklJ06Eg1gI686ZZUtUN-44
+  state "Provider of registrationcertificates" as tklJ06Eg1gI686ZZUtUN-47
+  state "tklJ06Eg1gI686ZZUtUN-60" as tklJ06Eg1gI686ZZUtUN-60
+  state "RegistrarMember States" as tklJ06Eg1gI686ZZUtUN-61
+  state "AccesCA" as tklJ06Eg1gI686ZZUtUN-62
+  state "Provider of registrationcertificates" as tklJ06Eg1gI686ZZUtUN-63
+  state "tklJ06Eg1gI686ZZUtUN-67" as tklJ06Eg1gI686ZZUtUN-67
+  state "Member States" as tklJ06Eg1gI686ZZUtUN-68
+  state "User" as tklJ06Eg1gI686ZZUtUN-71
+  19 --> 20 : Issues<br/>WUAs
+  19 --> 20 : AuthN
+  20 --> 11 : AuthN & AuthZ<br/>Request PIDs,<br/>attestations
+  11 --> 3 : Send registration<br/>certificate(s)<br/>(optional)
+  11 --> tklJ06Eg1gI686ZZUtUN-44 : Issue access<br/>certificate
+  3 --> tklJ06Eg1gI686ZZUtUN-44 : Issue access<br/>certificate
+  3 --> tklJ06Eg1gI686ZZUtUN-47 : Issue registration<br/>certificates(s)<br/>(optional)
+  6 --> tklJ06Eg1gI686ZZUtUN-62 : Issue access<br/>certificate(s)
+  6 --> tklJ06Eg1gI686ZZUtUN-63 : Issue<br/>registration<br/>certificate(s)<br/>(optional)
+  19 --> tklJ06Eg1gI686ZZUtUN-68 : Registers as<br/>Wallet Provider
+```
 
 Figure 12 illustrates the main entities and their relationships in the trust model
 of the EUDI Wallet ecosystem.

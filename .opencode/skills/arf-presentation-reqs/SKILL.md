@@ -18,7 +18,7 @@ sections:
 ---
 
 <!-- ARF version: v2.8.0 -->
-<!-- Tokens: ~4810 -->
+<!-- Tokens: ~4874 -->
 
 ##### 6.6.3.1 Required trust relationships
 
@@ -90,7 +90,15 @@ include functionality allowing the Wallet Unit to authenticate the Relying Party
 Instance. Although these protocols differ in the details, on a high level, they
 both implement Relying Party authentication as shown in Figure 12 below.
 
-![Figure 13](media/Figure_13_Relying_Party_Authentication.png)
+![Figure 13](https://raw.githubusercontent.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/main/docs/media/Figure_13_Relying_Party_Authentication.png)
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant WI as Wallet Instance
+  participant RPI as Relying Party instance
+  participant RC as Registering CA
+```
 
 Figure 13 High-level overview of Relying Party authentication process
 

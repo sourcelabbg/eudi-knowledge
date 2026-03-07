@@ -25,7 +25,7 @@ sections:
 ---
 
 <!-- ARF version: v2.8.0 -->
-<!-- Tokens: ~7207 -->
+<!-- Tokens: ~7962 -->
 
 ## 3. Roles within the EUDI Wallet ecosystem
 
@@ -40,7 +40,62 @@ the figure, as long as that entity complies with all requirements, both legal
 and technical, for each of the roles. In addition, potential conflicts of
 interest are to be avoided, but this issue is outside the scope of this ARF.
 
-![Figure 1: Overview of the EUDI Wallet ecosystem roles](media/Figure_1_Overview_of_EUDI_Wallet_roles.png)
+![Figure 1: Overview of the EUDI Wallet ecosystem roles](https://raw.githubusercontent.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/main/docs/media/Figure_1_Overview_of_EUDI_Wallet_roles.png)
+
+```mermaid
+stateDiagram-v2
+  state "xwD2jaNt2XTXC2Qp4hTl-57" as xwD2jaNt2XTXC2Qp4hTl-57
+  state "EAA Provider(7)" as 8
+  state "2" as 2
+  state "Wallet Provider(2)" as 3
+  state "Wallet Unit" as 20
+  state "Access Certificate Authority(17)" as 18
+  state "Provider of Registration Certificates&nbsp;(18)" as 19
+  state "Registrar(16)" as 17
+  state "Relying Party(10)" as 11
+  state "Trusted List or LoTE Provider(4)" as 5
+  state "PID Provider(3)" as 4
+  state "QEAA Provider (5)" as 6
+  state "PuB-EAA Provider(6)" as 7
+  state "QESRC&nbsp;Provider(8)" as 9
+  state "National Accreditation Body (15)" as 16
+  state "Conformity Assessment&nbsp;Body (11)" as 12
+  state "Supervisory&nbsp;Body(12)" as 13
+  state "Attribute&nbsp;Schema&nbsp;Provider (14)" as 15
+  state "Device Manufacturers and Related Subsystems Provider (13)" as 14
+  AgY7hXo52zcuCKhdfbTI-116 --> [*]
+  state "PrimaryRole" as AgY7hXo52zcuCKhdfbTI-117
+  state "Component" as AgY7hXo52zcuCKhdfbTI-118
+  state "Governance&nbsp;Role" as AgY7hXo52zcuCKhdfbTI-119
+  state "OqG462VzuzaBs0EC9eQU-37" as OqG462VzuzaBs0EC9eQU-37
+  state "User (1)" as OqG462VzuzaBs0EC9eQU-38
+  state "Authentic Source (9)" as 10
+  8 --> 20 : &nbsp;Issues EAA&nbsp;
+  19 --> 4
+  5 --> 18 : Is notified
+  18 --> 11 : Issues access certificate
+  19 --> 11 : Issues registration certificate
+  10 --> 7 : Providesqualifieddata
+  6 --> 5
+  6 --> 10 : Providesverificationservice
+  4 --> 5
+  7 --> 5
+  9 --> 5 : Is notified
+  18 --> 4
+  18 --> 7
+  18 --> 9 : Issues access certificate
+  19 --> 7
+  19 --> 8
+  19 --> 9 : Issuesregistration certificates
+  19 --> 5 : Is notified
+  4 --> 20 : &nbsp;Issues PID&nbsp;
+  9 --> 20 : &nbsp;Provides QC&nbsp;
+  20 --> 11 : Presents PID orattestations
+  20 --> 5 : Verifies
+  3 --> 5 : Is notified
+  14 --> 3 : Provides support,tools and libraries
+  14 --> 2 : &nbsp;Provides Device&nbsp;
+```
 *Figure 1: Overview of the EUDI Wallet ecosystem roles*
 
 The table below summarizes the key roles in the EUDI Wallet ecosystem, as shown in Figure 1. Each role
