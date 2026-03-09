@@ -39,6 +39,12 @@ ANNEX_5_02_URL = (
     f"{ARF_REPO_RAW}/annexes/annex-5/annex-5.02-design-guide-data-sharing-scenarios.md"
 )
 TS_README_URL = f"{ARF_REPO_RAW}/technical-specifications/README.md"
+RULEBOOK_REPO_RAW = (
+    "https://raw.githubusercontent.com/eu-digital-identity-wallet/"
+    "eudi-doc-attestation-rulebooks-catalog/main/rulebooks"
+)
+ANNEX_3_01_URL = f"{RULEBOOK_REPO_RAW}/pid/pid-rulebook.md"
+ANNEX_3_02_URL = f"{RULEBOOK_REPO_RAW}/mdl/mdl-rulebook.md"
 
 # ── Static skills (whole-file, single skill each) ─────────────────────────
 
@@ -65,6 +71,23 @@ STATIC_SKILLS = {
             "Use when designing data sharing user flows in EUDI Wallet "
             "applications. Covers scenarios for sharing PID and attestation "
             "data with Relying Parties."
+        ),
+    },
+    "hlr-03-pid-rulebook": {
+        "url": ANNEX_3_01_URL,
+        "description": (
+            "Use when working with EUDI high-level requirements for "
+            "'PID Rulebook'. Contains normative SHALL/SHOULD/MAY requirements "
+            "from ARF Annex 2."
+        ),
+        "no_split": True,
+    },
+    "hlr-04-mdl-rulebook": {
+        "url": ANNEX_3_02_URL,
+        "description": (
+            "Use when working with EUDI high-level requirements for "
+            "'mDL Rulebook'. Contains normative SHALL/SHOULD/MAY requirements "
+            "from ARF Annex 2."
         ),
     },
     "arf-standards-matrix": {
@@ -132,7 +155,7 @@ def generate_static_skills(version: str) -> int:
                     continue
 
         tokens = count_tokens(content)
-        if tokens <= TOKEN_WARN:
+        if tokens <= TOKEN_WARN or config.get("no_split"):
             write_skill(
                 OUTPUT_BASE / skill_name,
                 skill_name,

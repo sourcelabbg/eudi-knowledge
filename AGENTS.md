@@ -106,6 +106,8 @@ skills are written to `.ai/skills/*/SKILL.md` without errors.
 |---|---|
 | `arf-hlr-intro` | HLR structure overview, key words (SHALL/SHOULD/MAY) |
 | `hlr-NN-*` (~33 skills) | Specific high-level requirements by topic number (auto-split if large) |
+| `hlr-03-pid-rulebook` | PID Rulebook — attribute schemas, mdoc/SD-JWT VC encoding, trust anchors (from Annex 3.01) |
+| `hlr-04-mdl-rulebook` | mDL Rulebook — attribute schema, ISO 18013-5 encoding (from Annex 3.02) |
 | `arf-design-guide` | EUDI Wallet UI/UX design principles, visual identity |
 | `arf-design-data-sharing` | Data sharing user flow scenarios |
 | `arf-standards-matrix-*` | Standards matrix mapped to CIR articles by actor (auto-split) |
@@ -378,6 +380,7 @@ with `(LARGE)` in the token comment.
 - Skills with `"join": True` extract each pattern individually and merge with `---` separators.
 - Skills with `"url"` fetch content from a separate file (e.g. `arf-glossary` from Annex 1).
 - Annex 2.02 (HLRs by topic) is dynamically split at `####` headings -- each topic becomes its own skill.
+- Annex 3 rulebooks (PID, mDL) are fetched from a separate repo (`eudi-doc-attestation-rulebooks-catalog`) since they were moved out of the main ARF repo.
 - Large topics and HLR skills are **automatically split** at heading boundaries into `-part-N` suffixed skills when they exceed the token budget.
 - Discussion topics are each a standalone markdown file -- auto-split if they exceed the token budget.
 - HTML specs (OID4VP, OID4VCI, HAIP, SD-JWT, etc.) are converted from HTML to markdown, then split by section numbers.

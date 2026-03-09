@@ -55,6 +55,8 @@ Use them by mentioning the handle in chat, for example:
 |---|---|---|
 | `arf-hlr-intro` | Annex 2.01 | HLR structure overview, key words |
 | `hlr-NN-*` (~33 skills) | Annex 2.02 | High-level requirements by topic (auto-split if large) |
+| `hlr-03-pid-rulebook` | Annex 3.01 | PID Rulebook — attribute schemas, mdoc/SD-JWT VC encoding, trust anchors |
+| `hlr-04-mdl-rulebook` | Annex 3.02 | mDL Rulebook — attribute schema, ISO 18013-5 encoding |
 | `arf-design-guide` | Annex 5.01 | UI/UX design principles, visual identity |
 | `arf-design-data-sharing` | Annex 5.02 | Data sharing user flow scenarios |
 | `arf-standards-matrix-*` | TS README | Standards matrix mapped to CIR articles by actor (auto-split) |
