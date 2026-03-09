@@ -106,8 +106,8 @@ skills are written to `.ai/skills/*/SKILL.md` without errors.
 |---|---|
 | `arf-hlr-intro` | HLR structure overview, key words (SHALL/SHOULD/MAY) |
 | `hlr-NN-*` (~33 skills) | Specific high-level requirements by topic number (auto-split if large) |
-| `hlr-03-pid-rulebook` | PID Rulebook — attribute schemas, mdoc/SD-JWT VC encoding, trust anchors (from Annex 3.01) |
-| `hlr-04-mdl-rulebook` | mDL Rulebook — attribute schema, ISO 18013-5 encoding (from Annex 3.02) |
+| `arf-annex3-pid-rulebook` | PID Rulebook — attribute schemas, mdoc/SD-JWT VC encoding, trust anchors (from Annex 3.01) |
+| `arf-annex3-mdl-rulebook` | mDL Rulebook — attribute schema, ISO 18013-5 encoding (from Annex 3.02) |
 | `arf-design-guide` | EUDI Wallet UI/UX design principles, visual identity |
 | `arf-design-data-sharing` | Data sharing user flow scenarios |
 | `arf-standards-matrix-*` | Standards matrix mapped to CIR articles by actor (auto-split) |

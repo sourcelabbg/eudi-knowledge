@@ -73,21 +73,20 @@ STATIC_SKILLS = {
             "data with Relying Parties."
         ),
     },
-    "hlr-03-pid-rulebook": {
+    "arf-annex3-pid-rulebook": {
         "url": ANNEX_3_01_URL,
         "description": (
-            "Use when working with EUDI high-level requirements for "
-            "'PID Rulebook'. Contains normative SHALL/SHOULD/MAY requirements "
-            "from ARF Annex 2."
+            "Use when working with the PID Rulebook. Covers PID attribute "
+            "schemas, mdoc and SD-JWT VC encoding, trust anchors, revocation, "
+            "and compliance requirements."
         ),
         "no_split": True,
     },
-    "hlr-04-mdl-rulebook": {
+    "arf-annex3-mdl-rulebook": {
         "url": ANNEX_3_02_URL,
         "description": (
-            "Use when working with EUDI high-level requirements for "
-            "'mDL Rulebook'. Contains normative SHALL/SHOULD/MAY requirements "
-            "from ARF Annex 2."
+            "Use when working with the mDL Rulebook. Covers mDL attribute "
+            "schema and ISO 18013-5 encoding for mobile driving licences."
         ),
     },
     "arf-standards-matrix": {
