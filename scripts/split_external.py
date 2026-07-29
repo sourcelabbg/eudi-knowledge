@@ -395,34 +395,62 @@ W3C_SPECS = {
         "url": "https://w3c-fedid.github.io/digital-credentials/",
         "version": "draft-2025",
         "skills": {
+            # The spec numbers its headings ("## 1. Introduction"), so these are
+            # section numbers, not names. Upstream replaced the old "Model" and
+            # "Registry of protocols" sections with "Protocols" and "Credential
+            # Request Coordinator", and grew enough that the former two skills
+            # no longer fit the token budget -- hence five.
             "w3c-dc-api-core": {
-                "section_numbers": [
-                    "Introduction",
-                    "Model",
-                    "Scope",
-                    "The Digital Credentials API",
-                    "Integration with Credential Management API",
-                    "Permissions Policy integration",
-                    "Registry of protocols",
-                ],
+                "section_numbers": ["1", "2", "3", "4"],
                 "description": (
-                    "Use when implementing the W3C Digital Credentials API for "
-                    "browser-based credential exchange. Covers: DigitalCredential "
-                    "interface, navigator.credentials.get() extensions, "
-                    "credential management integration, and permissions policy."
+                    "Use when getting oriented in the W3C Digital Credentials API: "
+                    "what it is for, worked examples of requesting and issuing a "
+                    "credential (including cross-origin), scope, and terminology."
+                ),
+            },
+            "w3c-dc-api-interface": {
+                "section_numbers": ["5", "7", "8", "9"],
+                "description": (
+                    "Use when implementing the W3C Digital Credentials API surface: "
+                    "the DigitalCredential interface, CredentialRequestOptions and "
+                    "CredentialCreationOptions extensions, the digital member, "
+                    "protocol registry, Credential Management Level 1 integration, "
+                    "and Permissions Policy integration."
+                ),
+            },
+            "w3c-dc-api-coordinator": {
+                "section_numbers": ["6"],
+                "description": (
+                    "Use when implementing user-agent behaviour for the W3C Digital "
+                    "Credentials API: the Credential Request Coordinator, its "
+                    "interaction states, and the algorithms to prepare, validate, "
+                    "initiate, abort, and reject a credential request."
                 ),
             },
             "w3c-dc-api-security": {
-                "section_numbers": [
-                    "Security Considerations",
-                    "Privacy Considerations",
-                    "Accessibility Considerations",
-                ],
+                "section_numbers": ["10", "12", "13"],
                 "description": (
-                    "Use when reviewing W3C Digital Credentials API security and "
-                    "privacy. Covers: credential protocol security, cross-device "
-                    "security, quishing, data integrity, XSS/CSRF protection, "
-                    "session security, privacy considerations, and accessibility."
+                    "Use when reviewing W3C Digital Credentials API security: "
+                    "credential protocol security, cross-device security, quishing, "
+                    "data integrity, XSS/CSRF protection, and session security. "
+                    "Also covers accessibility and internationalization."
+                ),
+            },
+            "w3c-dc-api-privacy": {
+                "section_numbers": ["11.1", "11.2", "11.3"],
+                "description": (
+                    "Use when reviewing W3C Digital Credentials API privacy design: "
+                    "design considerations and alternatives, the spectrum of privacy, "
+                    "and privacy properties of the presentation protocol and "
+                    "credential format."
+                ),
+            },
+            "w3c-dc-api-privacy-risks": {
+                "section_numbers": ["11.4", "11.5", "11.6"],
+                "description": (
+                    "Use when assessing W3C Digital Credentials API privacy risks: "
+                    "unnecessary requests for credentials, fingerprinting and data "
+                    "leakage, and user permission and transparency."
                 ),
             },
         },

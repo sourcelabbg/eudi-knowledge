@@ -6,6 +6,7 @@ token counting, section extraction, and skill file writing.
 """
 
 import html
+import json
 import re
 import shutil
 import tiktoken
@@ -14,9 +15,25 @@ from pathlib import Path
 
 # ── Constants ──────────────────────────────────────────────────────────────
 
-OUTPUT_BASE = Path(".ai/skills")
+# Canonical skill output. This is the plugin root's skills/ directory so that
+# both host plugin packages ship real files -- a symlinked skills/ would be
+# skipped when Claude Code or Codex copies the plugin into its cache.
+# `.claude/skills` is a symlink to here for in-repo skill discovery.
+OUTPUT_BASE = Path("plugins/eudi/skills")
 ENCODER = tiktoken.get_encoding("cl100k_base")
 TOKEN_WARN = 8_000
+
+# Role skills live alongside the generated corpus but are hand-authored, so the
+# regeneration cleanup must leave them alone. Each has a matching thin subagent
+# in plugins/eudi/agents/ that delegates to it.
+HAND_WRITTEN_SKILLS = frozenset(
+    {
+        "eudi-expert",
+        "oid4vp-security-auditor",
+        "arf-trust-architect",
+        "oid4vci-issuer-reviewer",
+    }
+)
 
 ARF_REPO_RAW = (
     "https://raw.githubusercontent.com/eu-digital-identity-wallet/"
@@ -277,11 +294,16 @@ def write_skill(
 
 
 def clean_old_skills(output_base: Path | None = None) -> None:
-    """Remove all existing skill directories under output_base."""
+    """Remove generated skill directories under output_base.
+
+    Hand-authored role skills are preserved -- see HAND_WRITTEN_SKILLS.
+    """
     base = output_base or OUTPUT_BASE
     if not base.exists():
         return
     for d in base.iterdir():
+        if d.name in HAND_WRITTEN_SKILLS:
+            continue
         if d.is_dir() and (d / "SKILL.md").exists():
             shutil.rmtree(d)
 
@@ -309,13 +331,16 @@ _drawio_mermaid_cache: dict[str, str | None] = {}
 _convert2mermaid_cmd: list[str] | None = None
 _convert2mermaid_bootstrap_attempted = False
 _convert2mermaid_tmpdir = None
+_drawio_failure_reported = False
 
 
 def enrich_arf_diagrams(content: str) -> str:
     if "media/Figure_" not in content and f"{ARF_MEDIA_RAW}/Figure_" not in content:
         return content
 
-    normalized = re.sub(r"\]\(media/", f"]({ARF_MEDIA_RAW}/", content)
+    # Chapter and annex files sit at varying depths under docs/, so figure links
+    # arrive as media/, ../media/, or ../../media/.
+    normalized = re.sub(r"\]\((?:\.\./)*media/", f"]({ARF_MEDIA_RAW}/", content)
     return _append_mermaid_for_figure_images(normalized)
 
 
@@ -371,6 +396,7 @@ def _drawio_xml_to_mermaid(xml_url: str) -> str | None:
             ]
             res = subprocess.run(cmd, capture_output=True, text=True, timeout=90)
             if res.returncode != 0 or not output_path.exists():
+                _report_drawio_failure(res.returncode, res.stderr)
                 _drawio_mermaid_cache[xml_url] = None
                 return None
 
@@ -384,6 +410,48 @@ def _drawio_xml_to_mermaid(xml_url: str) -> str | None:
     except Exception:
         _drawio_mermaid_cache[xml_url] = None
         return None
+
+
+def _report_drawio_failure(returncode: int, stderr: str) -> None:
+    """Warn once when diagram conversion stops working.
+
+    Silent failure here previously let a converter CLI move go unnoticed until
+    the generated skills had lost every Mermaid diagram.
+    """
+    global _drawio_failure_reported
+    if _drawio_failure_reported:
+        return
+    _drawio_failure_reported = True
+    detail = (stderr or "").strip().splitlines()
+    print(
+        f"  ⚠  draw.io -> Mermaid conversion failed (exit {returncode})"
+        f"{': ' + detail[-1] if detail else ''}; diagrams will be omitted"
+    )
+
+
+def _resolve_convert2mermaid_cli(repo_dir: Path) -> Path | None:
+    """Locate the converter's CLI entry point.
+
+    convert2mermaid 2.1.0 moved the CLI from dist/index.js -- now the library
+    entry, which exits 0 without writing output -- to dist/cli.js. Prefer the
+    path declared in package.json so a future move is picked up automatically.
+    """
+    candidates: list[str] = []
+    try:
+        pkg = json.loads((repo_dir / "package.json").read_text(encoding="utf-8"))
+        bin_field = pkg.get("bin")
+        if isinstance(bin_field, str):
+            candidates.append(bin_field)
+        elif isinstance(bin_field, dict):
+            candidates.extend(str(v) for v in bin_field.values())
+    except Exception:
+        pass
+    candidates += ["dist/cli.js", "dist/index.js"]
+    for rel in candidates:
+        cli = repo_dir / rel.lstrip("./")
+        if cli.exists():
+            return cli
+    return None
 
 
 def _get_convert2mermaid_cmd() -> list[str] | None:
@@ -454,8 +522,8 @@ def _get_convert2mermaid_cmd() -> list[str] | None:
             text=True,
             timeout=300,
         )
-        cli = repo_dir / "dist" / "index.js"
-        if build.returncode != 0 or not cli.exists():
+        cli = _resolve_convert2mermaid_cli(repo_dir)
+        if build.returncode != 0 or cli is None:
             print("  ⚠  failed to build convert2mermaid; skipping diagram conversion")
             return None
 

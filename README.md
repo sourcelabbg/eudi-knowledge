@@ -1,31 +1,57 @@
 # eudi-knowledge
 
-OpenCode skills derived from official EUDI Wallet / eIDAS2 specifications.
+Agent skills derived from official EUDI Wallet / eIDAS2 specifications,
+distributed as a single plugin that both **Claude Code** and **Codex** install.
 
 ## What's in here
 
-Structured [OpenCode skills](https://opencode.ai/docs/skills/) split from the
+162 individually loadable skills split from the
 [EUDI Wallet Architecture and Reference Framework (ARF)](https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework)
-and related specs. Load them in any project where you're building on the EUDI ecosystem.
+and related specs. Nothing is bundled into one giant skill — each stays
+separately selectable so the model loads only what a question needs.
 
-## Custom Subagents (`@` mentions)
+## Install
 
-The project includes custom OpenCode subagents in `.ai/agents/` (exposed at
-`.opencode/agents/` via symlink). The
-filename maps directly to the `@` handle.
+```bash
+# Claude Code
+claude plugin marketplace add sourcelabbg/eudi-knowledge
+claude plugin install eudi@eudi-knowledge
 
-| Handle | File | Purpose |
+# Codex
+codex plugin marketplace add sourcelabbg/eudi-knowledge
+codex plugin add eudi@eudi-knowledge
+```
+
+Then run `/reload-plugins` in Claude Code, or start a new Codex session.
+
+Plugin skills are namespaced, so explicit invocation is `/eudi:arf-glossary`.
+All 162 descriptions stay in context so the model can choose between them —
+about 14.6k tokens per session.
+
+**[docs/installing.md](docs/installing.md)** covers updating, team-wide setup,
+pinning to a release, install scopes, disabling the plugin per project,
+uninstalling, and troubleshooting.
+[docs/plugin-distribution.md](docs/plugin-distribution.md) covers packaging and
+host compatibility.
+
+## Specialist roles
+
+Four skills are specialist roles rather than reference material — they tell the
+model which corpus skills to load, what to check, and how to report.
+
+| Role | Skill (both hosts) | Claude subagent |
 |---|---|---|
-| `@eudi-expert` | `.ai/agents/eudi-expert.md` | General EUDI standards specialist across ARF, OID4VP, and OID4VCI. |
-| `@oid4vp-security-auditor` | `.ai/agents/oid4vp-security-auditor.md` | Security/privacy audit for OpenID4VP requests, responses, and verifier checks. |
-| `@arf-trust-architect` | `.ai/agents/arf-trust-architect.md` | Trust model and actor lifecycle architecture guidance based on ARF. |
-| `@oid4vci-issuer-reviewer` | `.ai/agents/oid4vci-issuer-reviewer.md` | Issuer-side OpenID4VCI flow review and hardening checklist. |
+| General EUDI standards specialist | `eudi-expert` | `@eudi:eudi-expert` |
+| OpenID4VP security/privacy audit | `oid4vp-security-auditor` | `@eudi:oid4vp-security-auditor` |
+| ARF trust model and actor lifecycle | `arf-trust-architect` | `@eudi:arf-trust-architect` |
+| OpenID4VCI issuer review | `oid4vci-issuer-reviewer` | `@eudi:oid4vci-issuer-reviewer` |
 
-Use them by mentioning the handle in chat, for example:
+Claude Code plugins support subagents, so there each role also runs in its own
+context window. Codex plugins have no agent component, so there the roles are
+skills only.
 
 ```text
-@eudi-expert What skills apply to this wallet presentation flow?
-@oid4vp-security-auditor Audit this direct_post response handling.
+@eudi:oid4vp-security-auditor Audit this direct_post response handling.
 ```
 
 ## Skills
@@ -190,8 +216,12 @@ Large topics are automatically split into `-part-N` suffixed skills.
 
 | Skill | Source | Content |
 |---|---|---|
-| `w3c-dc-api-core` | W3C DC API §1–7 | DigitalCredential interface, credential management |
-| `w3c-dc-api-security` | W3C DC API §8–10 | Security, privacy, accessibility |
+| `w3c-dc-api-core` | W3C DC API §1–4 | Purpose, usage examples, scope, terminology |
+| `w3c-dc-api-interface` | W3C DC API §5, §7–9 | DigitalCredential interface, protocol registry, CM Level 1, Permissions Policy |
+| `w3c-dc-api-coordinator` | W3C DC API §6 | Credential Request Coordinator, interaction states, request algorithms |
+| `w3c-dc-api-security` | W3C DC API §10, §12–13 | Security, accessibility, internationalization |
+| `w3c-dc-api-privacy` | W3C DC API §11.1–11.3 | Privacy design, spectrum of privacy, protocol/format properties |
+| `w3c-dc-api-privacy-risks` | W3C DC API §11.4–11.6 | Unnecessary requests, fingerprinting, permission and transparency |
 
 ## Project Structure
 
@@ -208,16 +238,34 @@ scripts/
   split_sd_jwt_quickstart.py # SD-JWT implementation quickstart → 1 skill
   generate_all.py      # Single entry point for all generators
   update.py            # Check for updates and regenerate
-.ai/
-  skills/              # Canonical generated skill files (~150 skills)
-  agents/              # Canonical custom OpenCode subagents
-  commands/            # Canonical OpenCode command docs
-.opencode/skills/      # Compatibility symlink to .ai/skills
-.opencode/agents/      # Compatibility symlink to .ai/agents
-.opencode/commands/    # Compatibility symlink to .ai/commands
+  release.py           # Sync the plugin version across both host manifests
+plugins/eudi/          # THE PLUGIN — one directory, two host manifests
+  .claude-plugin/plugin.json   # Claude Code manifest
+  .codex-plugin/plugin.json    # Codex manifest
+  skills/              # Canonical skill files (158 generated + 4 role skills)
+  agents/              # 4 thin Claude Code subagents (Codex ignores these)
+.claude-plugin/marketplace.json    # Claude Code marketplace catalogue
+.agents/plugins/marketplace.json   # Codex marketplace catalogue
+.claude/skills         # Symlink → ../plugins/eudi/skills (in-repo discovery)
+.agents/skills         # Symlink → ../plugins/eudi/skills (in-repo discovery)
 ```
 
-## Setup
+The canonical skill location is `plugins/eudi/skills/`. Both hosts copy a plugin
+into a cache and skip symlinks pointing outside it, so `skills/` must be real
+files — the two `skills` symlinks point the other way and exist only for
+in-repo discovery.
+
+## Use in your project
+
+Install the plugin — see [Install](#install) above. No submodule, no vendored
+copy, and no symlink into this repository: each host fetches the plugin from the
+marketplace and caches its own copy.
+
+If your project also installs skills with `gh skill`, keep `.agents/skills/` a
+real, writable directory that your project owns. Pointing it at a shared corpus
+would direct `gh skill install` writes into that other repository.
+
+## Local development
 
 ```bash
 git clone https://github.com/sourcelabbg/eudi-knowledge
@@ -225,38 +273,36 @@ cd eudi-knowledge
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# Generate all skills
+# Regenerate all skills
 python scripts/generate_all.py
+
+# Bump the plugin version if generated content changed
+python scripts/release.py
 ```
 
-## Use in your project
-
-### Option A — Symlink globally (single developer)
+To try the plugin from a local checkout, register the repository as a
+marketplace instead of publishing:
 
 ```bash
-ln -s $(pwd)/.ai/skills/* ~/.config/opencode/skills/
+claude plugin marketplace add "$(pwd)" && claude plugin install eudi@eudi-knowledge
+codex plugin marketplace add "$(pwd)" && codex plugin add eudi@eudi-knowledge
 ```
 
-### Option B — Reference in your project's opencode.json
-
-```json
-{
-  "instructions": [
-    "https://raw.githubusercontent.com/sourcelabbg/eudi-knowledge/main/AGENTS.md"
-  ]
-}
-```
-
-### Option C — Git submodule in your monorepo
-
-```bash
-git submodule add https://github.com/sourcelabbg/eudi-knowledge packages/eudi-knowledge
-```
+Local-path marketplaces read live from disk, so edits appear without
+reinstalling. Both hosts require an absolute path or one starting with `./` —
+a bare `.` is rejected.
 
 ## Updating
 
-Skills are auto-updated every Monday via GitHub Actions.
-To update manually:
+Skills are regenerated every Monday via GitHub Actions, which bumps the plugin
+version when content changed. Consumers then run:
+
+```bash
+claude plugin marketplace update eudi-knowledge && claude plugin update eudi
+codex plugin marketplace upgrade eudi-knowledge && codex plugin add eudi@eudi-knowledge
+```
+
+To regenerate manually in this repository:
 
 ```bash
 python scripts/update.py          # only if new ARF version available

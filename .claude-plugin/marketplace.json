@@ -1,0 +1,24 @@
+{
+  "name": "eudi-knowledge",
+  "description": "EUDI Wallet / eIDAS2 specification skills for Claude Code and Codex.",
+  "owner": {
+    "name": "Sourcelab",
+    "url": "https://github.com/sourcelabbg"
+  },
+  "plugins": [
+    {
+      "name": "eudi",
+      "source": "./plugins/eudi",
+      "description": "EUDI Wallet / eIDAS2 specification knowledge base split into individually loadable skills.",
+      "category": "knowledge",
+      "tags": [
+        "eudi",
+        "eidas2",
+        "arf",
+        "openid4vp",
+        "openid4vci",
+        "verifiable-credentials"
+      ]
+    }
+  ]
+}

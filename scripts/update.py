@@ -55,6 +55,10 @@ def main() -> None:
     )
 
     VERSION_CACHE.write_text(latest)
+
+    # Bump the plugin version so both hosts hand the new corpus to users.
+    subprocess.run([sys.executable, "scripts/release.py"], check=True)
+
     print(f"  ✓  Updated to {latest}")
 
 

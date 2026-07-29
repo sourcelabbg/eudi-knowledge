@@ -18,7 +18,14 @@ from common import (
     clean_old_skills,
 )
 
-ARF_MAIN_URL = f"{ARF_REPO_RAW}/architecture-and-reference-framework-main.md"
+# Upstream split the single main markdown file into one file per chapter under
+# docs/main/ (01-introduction.md ... 11-annexes.md). Chapter files are discovered
+# rather than hard-coded so a renumbering upstream does not silently drop one.
+ARF_MAIN_BASE = f"{ARF_REPO_RAW}/main"
+ARF_MAIN_CONTENTS_API = (
+    "https://api.github.com/repos/eu-digital-identity-wallet/"
+    "eudi-doc-architecture-and-reference-framework/contents/docs/main"
+)
 ARF_ANNEX1_URL = f"{ARF_REPO_RAW}/annexes/annex-1/annex-1-definitions.md"
 
 SKILLS = {
@@ -158,11 +165,29 @@ SKILLS = {
 }
 
 
-def fetch_arf() -> str:
-    print("  Fetching ARF from GitHub...")
-    r = requests.get(ARF_MAIN_URL, timeout=30)
+def list_main_chapters() -> list[str]:
+    r = requests.get(ARF_MAIN_CONTENTS_API, timeout=30)
     r.raise_for_status()
-    return r.text
+    return sorted(
+        e["name"]
+        for e in r.json()
+        if e["type"] == "file" and e["name"].endswith(".md") and e["name"] != "index.md"
+    )
+
+
+def fetch_arf() -> str:
+    """Fetch the ARF main document chapters and concatenate them in order.
+
+    Filename order matches chapter order, so the joined text carries the same
+    heading numbering the SKILLS patterns match against.
+    """
+    print("  Fetching ARF from GitHub...")
+    chapters = list_main_chapters()
+    if not chapters:
+        raise RuntimeError(f"No ARF chapter files found at {ARF_MAIN_CONTENTS_API}")
+    print(f"  Found {len(chapters)} chapter files")
+    parts = [fetch_markdown(f"{ARF_MAIN_BASE}/{name}") for name in chapters]
+    return "\n\n".join(parts)
 
 
 def main() -> None:

@@ -1,0 +1,21 @@
+{
+  "name": "eudi-knowledge",
+  "description": "EUDI Wallet / eIDAS2 specification skills for Claude Code and Codex.",
+  "interface": {
+    "displayName": "EUDI Knowledge"
+  },
+  "plugins": [
+    {
+      "name": "eudi",
+      "source": {
+        "source": "local",
+        "path": "./plugins/eudi"
+      },
+      "description": "EUDI Wallet / eIDAS2 specification knowledge base split into individually loadable skills.",
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

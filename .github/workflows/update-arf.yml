@@ -25,11 +25,14 @@ jobs:
       - name: Check for ARF updates and regenerate skills
         run: python scripts/update.py
 
+      - name: Verify plugin manifests are in sync
+        run: python scripts/release.py --check
+
       - name: Commit changes if any
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .opencode/skills/ .arf-version
+          git add plugins/eudi .arf-version .plugin-version.json
           git diff --staged --quiet \
-            || git commit -m "chore: update EUDI skills to $(cat .arf-version)"
+            || git commit -m "chore: update EUDI skills to $(cat .arf-version) (plugin $(python -c 'import json;print(json.load(open("plugins/eudi/.claude-plugin/plugin.json"))["version"])'))"
           git push

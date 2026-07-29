@@ -1,7 +1,8 @@
 # EUDI Knowledge Base
 
-Python tool that fetches official EUDI/eIDAS2 specifications
-and splits them into OpenCode SKILL.md files for use in any EUDI-related project.
+Python tool that fetches official EUDI/eIDAS2 specifications and splits them
+into SKILL.md files, distributed as a single plugin that both Claude Code and
+Codex install.
 
 ## Project Structure
 
@@ -18,35 +19,64 @@ scripts/
   split_sd_jwt_quickstart.py # SD-JWT implementation quickstart → 1 skill
   generate_all.py      # Single entry point for all generators
   update.py            # Check for new ARF release, re-run generators if newer version found
-.ai/
-  skills/              # Canonical generated skill files (~150 skills)
-  agents/              # Canonical custom OpenCode subagents
-  commands/            # Canonical OpenCode command docs
-.opencode/skills/      # Compatibility symlink to .ai/skills
-.opencode/agents/      # Compatibility symlink to .ai/agents
-.opencode/commands/    # Compatibility symlink to .ai/commands
+  release.py           # Sync the plugin version across both host manifests
+plugins/eudi/          # THE PLUGIN — one directory, two host manifests
+  .claude-plugin/plugin.json   # Claude Code manifest
+  .codex-plugin/plugin.json    # Codex manifest
+  skills/              # CANONICAL skill files (158 generated + 4 role skills)
+  agents/              # 4 thin Claude Code subagents (Codex ignores these)
+  README.md            # Install/update instructions for consumers
+.claude-plugin/marketplace.json    # Claude Code marketplace catalogue
+.agents/plugins/marketplace.json   # Codex marketplace catalogue
+.claude/skills         # Symlink → ../plugins/eudi/skills (in-repo discovery)
+.claude/commands/      # Repo maintenance procedures (e.g. ADD_OPENID4VP.md)
+.agents/skills         # Symlink → ../plugins/eudi/skills (in-repo discovery)
+.arf-version           # Last-processed ARF release tag
+.plugin-version.json   # Plugin version state (ARF base, revision, content hash)
 requirements.txt       # Pinned Python dependencies
+docs/plugin-distribution.md  # Host compatibility + packaging validation log
 ```
 
-## Custom Subagents (`@` mentions)
+**The canonical skill location is `plugins/eudi/skills/`.** Generators write
+real files there because both hosts copy a plugin into a cache and *skip*
+symlinks whose target resolves outside the plugin — a symlinked `skills/` would
+silently ship empty. The two `skills` symlinks point the other way, so this
+repository loads its own skills while you work on it; they are never part of a
+published package. See [docs/plugin-distribution.md](docs/plugin-distribution.md).
 
-The project includes custom OpenCode subagents in `.ai/agents/` (exposed at
-`.opencode/agents/` via symlink). The
-filename maps directly to the `@` handle.
+The plugin lives in a `plugins/<name>/` subdirectory rather than at the
+repository root so the published package contains only skills and manifests —
+not `scripts/`, `docs/`, or `requirements.txt`. This also matches the dominant
+convention in Anthropic's official marketplace.
 
-| Handle | File | Purpose |
-|---|---|---|
-| `@eudi-expert` | `.ai/agents/eudi-expert.md` | General EUDI standards specialist across ARF, OID4VP, and OID4VCI. |
-| `@oid4vp-security-auditor` | `.ai/agents/oid4vp-security-auditor.md` | Security/privacy audit for OpenID4VP requests, responses, and verifier checks. |
-| `@arf-trust-architect` | `.ai/agents/arf-trust-architect.md` | Trust model and actor lifecycle architecture guidance based on ARF. |
-| `@oid4vci-issuer-reviewer` | `.ai/agents/oid4vci-issuer-reviewer.md` | Issuer-side OpenID4VCI flow review and hardening checklist. |
+## Specialist roles (skills + Claude subagents)
 
-Use them by mentioning the handle in chat, for example:
+Four hand-authored specialist roles ship with the plugin. Claude Code plugins
+support subagents; Codex plugins do not — so each role is authored **once as a
+skill** (both hosts) with a thin Claude subagent that loads it.
+
+| Role | Skill (both hosts) | Claude subagent | Purpose |
+|---|---|---|---|
+| Standards generalist | `eudi-expert` | `@eudi:eudi-expert` | General EUDI specialist across ARF, OID4VP, and OID4VCI. |
+| OID4VP audit | `oid4vp-security-auditor` | `@eudi:oid4vp-security-auditor` | Security/privacy audit of OpenID4VP requests, responses, and verifier checks. |
+| Trust architecture | `arf-trust-architect` | `@eudi:arf-trust-architect` | Trust model and actor lifecycle guidance based on ARF. |
+| Issuer review | `oid4vci-issuer-reviewer` | `@eudi:oid4vci-issuer-reviewer` | Issuer-side OpenID4VCI flow review and hardening checklist. |
+
+The role text lives only in `plugins/eudi/skills/<role>/SKILL.md`; the matching
+file in `plugins/eudi/agents/` just carries frontmatter plus "load that skill and
+follow it". Use a role by invoking the skill, or on Claude Code by delegating:
 
 ```text
-@eudi-expert What skills apply to this wallet presentation flow?
-@oid4vp-security-auditor Audit this direct_post response handling.
+@eudi:eudi-expert What skills apply to this wallet presentation flow?
+@eudi:oid4vp-security-auditor Audit this direct_post response handling.
 ```
+
+**These four skills are hand-authored, not generated.** They live alongside the
+generated corpus, so `clean_old_skills()` skips the names listed in
+`HAND_WRITTEN_SKILLS` in `scripts/common.py`. Adding a role means adding its
+name to that set, or the next regeneration deletes it. Do not declare
+`"agents"` in `plugin.json` — a bare directory string fails validation, and
+`agents/` at the plugin root is discovered automatically.
 
 ## Build & Run Commands
 
@@ -70,7 +100,7 @@ python scripts/update.py --force
 
 No test suite exists. No linter or formatter is configured.
 Validate changes by running `python scripts/generate_all.py` and checking that
-skills are written to `.ai/skills/*/SKILL.md` without errors.
+skills are written to `plugins/eudi/skills/*/SKILL.md` without errors.
 
 ## CI / GitHub Actions
 
@@ -226,8 +256,12 @@ Large topics are automatically split into `-part-N` suffixed skills.
 
 | Skill | Trigger |
 |---|---|
-| `w3c-dc-api-core` | DigitalCredential interface, credential management |
-| `w3c-dc-api-security` | DC API security, privacy, accessibility |
+| `w3c-dc-api-core` | DC API purpose, usage examples, scope, terminology |
+| `w3c-dc-api-interface` | DigitalCredential interface, protocol registry, CM Level 1, Permissions Policy |
+| `w3c-dc-api-coordinator` | Credential Request Coordinator, interaction states, request algorithms |
+| `w3c-dc-api-security` | DC API security, accessibility, internationalization |
+| `w3c-dc-api-privacy` | DC API privacy design and protocol/format privacy properties |
+| `w3c-dc-api-privacy-risks` | DC API privacy risks: unnecessary requests, fingerprinting, transparency |
 
 ### MATTR Learn mDocs (ISO/IEC 18013-5)
 
@@ -350,7 +384,7 @@ No `pyproject.toml` or `setup.py` -- this is not a distributable package.
 
 ## Generated Skill Format
 
-Each skill is a Markdown file at `.ai/skills/<name>/SKILL.md` with YAML frontmatter. The `sections` field lists top-level + one sub-level headings so models can locate content across skills:
+Each skill is a Markdown file at `plugins/eudi/skills/<name>/SKILL.md` with YAML frontmatter. The `sections` field lists top-level + one sub-level headings so models can locate content across skills:
 
 ```markdown
 ---
@@ -379,6 +413,8 @@ with `(LARGE)` in the token comment.
 - The `SKILLS` dict in each splitter maps skill names -> regex patterns or section numbers.
 - Skills with `"join": True` extract each pattern individually and merge with `---` separators.
 - Skills with `"url"` fetch content from a separate file (e.g. `arf-glossary` from Annex 1).
+- The ARF main document is **assembled from chapter files** under `docs/main/` (`01-introduction.md` ... `11-annexes.md`); upstream retired the single `architecture-and-reference-framework-main.md`. `list_main_chapters()` discovers them via the GitHub contents API and sorts by filename, so a renumbering upstream cannot silently drop a chapter. Filename order matches chapter order, so the joined text keeps the heading numbering the `SKILLS` patterns match.
+- Figure links arrive at varying relative depths (`media/`, `../media/`, `../../media/`) depending on where the source file sits under `docs/`; `enrich_arf_diagrams()` rewrites all of them to absolute raw URLs.
 - Annex 2.02 (HLRs by topic) is dynamically split at `####` headings -- each topic becomes its own skill.
 - Annex 3 rulebooks (PID, mDL) are fetched from a separate repo (`eudi-doc-attestation-rulebooks-catalog`) since they were moved out of the main ARF repo.
 - Large topics and HLR skills are **automatically split** at heading boundaries into `-part-N` suffixed skills when they exceed the token budget.

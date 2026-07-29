@@ -1,0 +1,40 @@
+{
+  "name": "eudi",
+  "version": "3.0.2",
+  "description": "EUDI Wallet / eIDAS2 specification knowledge base: ARF, OpenID4VP, OpenID4VCI, HAIP, SD-JWT VC, ISO mdoc, W3C VCDM and Digital Credentials API, split into individually loadable skills.",
+  "author": {
+    "name": "Sourcelab",
+    "url": "https://github.com/sourcelabbg"
+  },
+  "homepage": "https://github.com/sourcelabbg/eudi-knowledge",
+  "repository": "https://github.com/sourcelabbg/eudi-knowledge",
+  "license": "MIT",
+  "keywords": [
+    "eudi",
+    "eidas2",
+    "arf",
+    "openid4vp",
+    "openid4vci",
+    "sd-jwt-vc",
+    "mdoc",
+    "verifiable-credentials",
+    "digital-identity"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "EUDI Knowledge",
+    "shortDescription": "EUDI Wallet and eIDAS2 specification skills",
+    "longDescription": "Individually loadable skills covering the EUDI Architecture and Reference Framework (main document, annexes, high-level requirements, discussion topics), OpenID4VP, OpenID4VCI, HAIP, SD-JWT and SD-JWT VC, Token Status List, ISO/IEC 18013-5 mdoc, W3C Verifiable Credentials Data Model 2.0, and the W3C Digital Credentials API.",
+    "developerName": "Sourcelab",
+    "category": "Productivity",
+    "capabilities": [
+      "Read"
+    ],
+    "websiteURL": "https://github.com/sourcelabbg/eudi-knowledge",
+    "defaultPrompt": [
+      "Which ARF high-level requirements apply to Relying Party authentication?",
+      "Review this OpenID4VP direct_post response handling for security issues",
+      "How should a PID be encoded as an SD-JWT VC?"
+    ]
+  }
+}
