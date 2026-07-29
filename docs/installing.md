@@ -117,7 +117,7 @@ Refresh the catalogue first, then the plugin — one step is not enough.
 ```bash
 # Claude Code
 claude plugin marketplace update eudi-knowledge
-claude plugin update eudi
+claude plugin update eudi@eudi-knowledge
 
 # Codex
 codex plugin marketplace upgrade eudi-knowledge
@@ -126,6 +126,10 @@ codex plugin add eudi@eudi-knowledge
 
 Claude Code needs a restart, or `/reload-plugins`, to apply the new version.
 Codex re-runs `plugin add` to install over the previous version.
+
+Note the `eudi@eudi-knowledge` form: `update` is the one command that rejects the
+bare plugin name, failing with `Plugin "eudi" not found` even though the plugin
+is installed. `install`, `details`, `enable`, and `disable` all accept `eudi`.
 
 **Nothing will appear until the version string changes.** `plugin.json` pins an
 explicit `version`, so both hosts consider you current until it moves.
@@ -280,8 +284,8 @@ rejected with `Invalid marketplace source format`.
 Local-path marketplaces are read live rather than snapshotted on Claude Code, so
 edits to `plugins/eudi/skills/` show up without reinstalling. Two consequences:
 
-- `claude plugin update eudi` fails with `Plugin "eudi" not found` against a
-  local path. Nothing to update — it is already live.
+- Nothing to update: the plugin is already live, so `claude plugin update` has
+  no work to do.
 - `codex plugin marketplace upgrade` errors with `not configured as a Git
   marketplace`. Re-run `codex plugin add` to pick up a version bump.
 
@@ -294,7 +298,7 @@ edits to `plugins/eudi/skills/` show up without reinstalling. Two consequences:
 | Skills don't appear after installing | Run `/reload-plugins`. Note its summary counts only `commands/`, so it can report `0 skills` even when the 162 loaded — confirm with `claude plugin details eudi`. |
 | Still no skills | Stale cache. `rm -rf ~/.claude/plugins/cache`, restart, reinstall. |
 | `/arf-glossary` not recognised | Plugin skills are namespaced: `/eudi:arf-glossary`. |
-| `claude plugin update eudi` → `Plugin "eudi" not found` | Expected for a local-path marketplace; see [Install from a local clone](#install-from-a-local-clone). |
+| `claude plugin update eudi` → `Plugin "eudi" not found` | `update` is the one command that needs the fully-qualified id: `claude plugin update eudi@eudi-knowledge`. |
 | `marketplace ... is not configured as a Git marketplace` | `codex plugin marketplace upgrade` only works on git sources. Re-run `codex plugin add`. |
 | Context feels heavy on unrelated work | Expected — ~14,600 always-on tokens. [Disable it](#turn-it-off-where-you-dont-need-it) outside EUDI projects. |
 | `@eudi:eudi-expert` does nothing in Codex | Codex plugins have no agent component. Use the `eudi-expert` skill instead. |

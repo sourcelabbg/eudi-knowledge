@@ -298,7 +298,7 @@ Skills are regenerated every Monday via GitHub Actions, which bumps the plugin
 version when content changed. Consumers then run:
 
 ```bash
-claude plugin marketplace update eudi-knowledge && claude plugin update eudi
+claude plugin marketplace update eudi-knowledge && claude plugin update eudi@eudi-knowledge
 codex plugin marketplace upgrade eudi-knowledge && codex plugin add eudi@eudi-knowledge
 ```
 

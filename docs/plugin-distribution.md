@@ -189,30 +189,55 @@ Cache layout is identical in shape on both hosts:
 `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/` and
 `~/.codex/plugins/cache/<marketplace>/<plugin>/<version>/`.
 
+### Git-sourced install, verified after publishing
+
+Once `main` and the `eudi--v3.0.2` tag were pushed, the remaining steps were run
+against the public repository:
+
+| # | Check | Claude Code | Codex |
+|---|---|---|---|
+| 13 | `owner/repo` marketplace add | ✓ `Source: GitHub (sourcelabbg/eudi-knowledge)` | ✓ cloned to `~/.codex/.tmp/marketplaces/eudi-knowledge` |
+| 14 | Install from the git marketplace | ✓ `Skills (162)`, `Agents (4)` | ✓ cached at `.../eudi/3.0.2` |
+| 15 | Catalogue refresh | ✓ `marketplace update` | ✓ `marketplace upgrade` (works on a git source) |
+| 16 | Plugin update check | ✓ `already at the latest version (3.0.2)` | ✓ re-`add` is a no-op at the same version |
+| 17 | Pin to a tag | ✓ `#eudi--v3.0.2` → `Source: Git (...@eudi--v3.0.2)` | ✓ `@eudi--v3.0.2` → `ref = "eudi--v3.0.2"` in `config.toml` |
+| 18 | Cache integrity over git | ✓ 162 skills, 4 agents, 0 symlinks, both manifests | ✓ same |
+
+Codex's `{"source": "local", "path": "./plugins/eudi"}` entry resolves correctly
+*inside* a git snapshot, so the same catalogue serves local and git installs.
+
 ### Known limits found during validation
 
+- **`claude plugin update` needs the fully-qualified id.** `claude plugin update
+  eudi` fails with `Plugin "eudi" not found` even when the plugin is installed
+  and `claude plugin details eudi` works; `claude plugin update
+  eudi@eudi-knowledge` succeeds. `install`, `details`, `enable`, and `disable`
+  all accept the bare name, so `update` is the odd one out. An earlier revision
+  of this note wrongly blamed local-path marketplaces for that error.
 - **Local-path marketplaces are live, not snapshotted, on Claude Code.**
   After bumping the source to `0.0.2`, `claude plugin details eudi` reported
   `0.0.2` with 3 skills while `~/.claude/plugins/cache/.../0.0.1` was still the
-  only cached version. `claude plugin update eudi` fails with
-  `Plugin "eudi" not found` for a local-path marketplace. This is a development
-  convenience, not a bug to route around: local paths reload as you edit.
+  only cached version. This is a development convenience, not a bug to route
+  around: local paths reload as you edit.
 - **`codex plugin marketplace upgrade` requires a git marketplace.** Against a
   local path it errors with `marketplace ... is not configured as a Git
   marketplace`. Re-running `codex plugin add` picks up the new version.
 - **`file://` git URLs are rejected by both hosts.** Claude Code wants
   `owner/repo`, `https://...`, or `./path`; Codex wants `owner/repo`, a git
-  URL, or a local path. A local bare repository therefore cannot stand in for
-  GitHub, which is why step 7 was validated by version bump rather than by
-  `git`-sourced `update`/`upgrade`.
-- **Not yet validated: the `git`-sourced install and upgrade.** This needs the
-  marketplace pushed to `github.com/sourcelabbg/eudi-knowledge`. Until then the
-  team flow below is documentation-derived for the fetch/pin step, while
-  everything about package layout, discovery, and caching is verified.
+  URL, or a local path. A local bare repository cannot stand in for GitHub,
+  which is why steps 13–18 had to wait until the repository was published.
+- **Codex ignores a repo-committed marketplace.** A
+  `.agents/plugins/marketplace.json` inside a project is not auto-discovered —
+  verified by probing a repository containing one. Codex needs an explicit
+  `codex plugin marketplace add`, so only Claude Code supports the
+  commit-it-and-teammates-get-prompted flow.
+- **Still unexercised: a version-to-version upgrade over git.** Steps 15–16 ran
+  at a single published version, so they confirm the "already latest" path. The
+  first real `3.0.2 → 3.0.3` transition will come from the weekly CI job.
 
 ## Team install and update flow
 
-Once the marketplace is on the default branch of the GitHub repository:
+The marketplace is on the default branch of the GitHub repository:
 
 ```bash
 # Claude Code
@@ -229,7 +254,7 @@ Updating:
 ```bash
 # Claude Code — refresh the catalogue, then the plugin
 claude plugin marketplace update eudi-knowledge
-claude plugin update eudi
+claude plugin update eudi@eudi-knowledge
 
 # Codex — refresh the git snapshot, then re-add
 codex plugin marketplace upgrade eudi-knowledge

@@ -29,7 +29,7 @@ Refresh the catalogue *and* the plugin — one step is not enough:
 
 ```bash
 # Claude Code
-claude plugin marketplace update eudi-knowledge && claude plugin update eudi
+claude plugin marketplace update eudi-knowledge && claude plugin update eudi@eudi-knowledge
 
 # Codex
 codex plugin marketplace upgrade eudi-knowledge && codex plugin add eudi@eudi-knowledge
